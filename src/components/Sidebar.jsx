@@ -9,13 +9,19 @@ import {
   MenuItem,
   Collapse,
 } from '@mui/material';
-import { Equalizer, Home, TrendingUp } from '@mui/icons-material';
+import { Equalizer, Home, Settings, TrendingUp } from '@mui/icons-material';
 
 export default function Sidebar() {
   return (
     <Drawer variant="permanent">
       <List>
         <MenuItem component={Link} to="/">
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="splash DEV ONLY" />
+        </MenuItem>
+        <MenuItem component={Link} to="/overview">
           <ListItemIcon>
             <Home />
           </ListItemIcon>
@@ -50,6 +56,13 @@ export default function Sidebar() {
             <TrendingUp />
           </ListItemIcon>
           <ListItemText primary="Performance Metrics" />
+        </MenuItem>
+        <Divider />
+        <MenuItem component={Link} to="/settings">
+          <ListItemIcon>
+            <Settings />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
         </MenuItem>
       </List>
     </Drawer>
