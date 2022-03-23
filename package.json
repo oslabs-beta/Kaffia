@@ -6,7 +6,7 @@
   "scripts": {
     "electron": "cross-env NODE_ENV=production electron .",
     "build": "webpack",
-    "dev": "concurrently \"cross-env NODE_ENV=development electron .\" \"webpack-dev-server\""
+    "dev": "concurrently \"cross-env NODE_ENV=development electron .\" \"cross-env NODE_ENV=development webpack-dev-server\""
   },
   "repository": {
     "type": "git",
