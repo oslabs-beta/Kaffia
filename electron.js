@@ -1,4 +1,5 @@
 const path = require('path');
+const fetch = require('electron-fetch').default;
 const { app, ipcMain, Menu } = require('electron');
 
 const MainWindow = require('./app/MainWindow.jsx');
@@ -20,6 +21,14 @@ app.on('ready', () => {
     process.platform === 'darwin' ? 'icon-mac.png' : 'icon-windows.png';
   const iconPath = path.join(__dirname, `/src/assets/${iconName}`);
   tray = new MetricTray(iconPath, popupWindow);
+});
+
+ipcMain.on('port:add', (_, port) => {
+  console.log(`http://localhost:${port}/metrics`);
+  fetch(`http://localhost:${port}/metrics`)
+    .then((data) => data.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
 });
 
 // build app menu
