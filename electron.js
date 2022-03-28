@@ -1,6 +1,8 @@
 const path = require('path');
 const fetch = require('electron-fetch').default;
 const { app, ipcMain, Menu } = require('electron');
+const {exec} = require('child_process');
+const configGenerator = require('./configGenerator');
 
 const MainWindow = require('./app/MainWindow.jsx');
 const PopupWindow = require('./app/PopupWindow.jsx');
@@ -23,12 +25,8 @@ app.on('ready', () => {
   tray = new MetricTray(iconPath, popupWindow);
 });
 
-ipcMain.on('port:add', (_, port) => {
-  console.log(`http://localhost:${port}/metrics`);
-  fetch(`http://localhost:${port}/metrics`)
-    .then((data) => data.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+ipcMain.on('cluster:start', (_, brokers) => {
+  
 });
 
 // build app menu
@@ -57,3 +55,33 @@ if (process.env.NODE_ENV === 'development') {
     submenu: [{ role: 'reload' }, { role: 'toggleDevTools' }],
   });
 }
+
+// exec('docker-compose -f  ./kafka-monitoring-stack-docker-compose/zk-kafka-single-node-stack.yml up -d', (err, stdout, stderr) => {
+//   if(err) {
+//     console.log(err);
+//   }
+//   if(stderr) {
+//     console.log(stderr);
+//   }
+//   console.log(stdout);
+// });
+// exec('docker exec -it kafka101 ./kafka-monitoring-stack-docker-compose/zk-kafka-single-node-stack.yml /bin/bash', (err, stdout, stderr) => {
+//   if(err) {
+//     console.log(err);
+//   }
+//   if(stderr) {
+//     console.log(stderr);
+//   }
+//   console.log(stdout);
+// });
+exec('ls -la', (err, stdout, stderr) => {
+  if(err) {
+    console.log(err);
+  }
+  if(stderr) {
+    console.log(stderr);
+  }
+  console.log(stdout);
+});
+
+configGenerator(3);
