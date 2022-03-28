@@ -25,9 +25,7 @@ app.on('ready', () => {
   tray = new MetricTray(iconPath, popupWindow);
 });
 
-ipcMain.on('cluster:start', (_, brokers) => {
-  
-});
+ipcMain.on('brokers:input', (_, brokers) => {});
 
 // build app menu
 const menuTemplate = [

@@ -12,8 +12,8 @@ module.exports = (brokerCount) => {
         newConfig.KAFKA_BROKER_COUNT = brokerCount;
         console.log(newConfig);
 
-        fs.writeFileSync(path.join(__dirname, `./configs/config_kafka${100 + brokerCount}.yml`), yaml.safeDump(config));
-        
+        // fs.writeFileSync(path.join(__dirname, `./configs/config_kafka${100 + brokerCount}.yml`), yaml.safeDump(config));
+        fs.appendFileSync(path.join(__dirname, `./configs/config_kafka${100 + brokerCount}.yml`), yaml.safeDump(config));
     } catch(e) {
         console.log(e);
     }
