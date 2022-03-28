@@ -23,13 +23,7 @@ app.on('ready', () => {
   tray = new MetricTray(iconPath, popupWindow);
 });
 
-ipcMain.on('port:add', (_, port) => {
-  console.log(`http://localhost:${port}/metrics`);
-  fetch(`http://localhost:${port}/metrics`)
-    .then((data) => data.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
-});
+ipcMain.on('brokers:input', (_, brokers) => {});
 
 // build app menu
 const menuTemplate = [
