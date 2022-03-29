@@ -1,8 +1,8 @@
 const path = require('path');
 const fetch = require('electron-fetch').default;
 const { app, ipcMain, Menu } = require('electron');
-const {exec} = require('child_process');
-const configGenerator = require('./configGenerator');
+const { exec } = require('child_process');
+const configGenerator = require('./configs/configGenerator');
 
 const MainWindow = require('./app/MainWindow.jsx');
 const PopupWindow = require('./app/PopupWindow.jsx');
@@ -24,18 +24,6 @@ app.on('ready', () => {
   const iconPath = path.join(__dirname, `/src/assets/${iconName}`);
   tray = new MetricTray(iconPath, popupWindow);
 });
-
-ipcMain.on('brokers:input', (_, brokerCount) => {
-  // if (brokerCount === 1 ) {
-  //   // execute docker config file with one broker
-  //   // configGenerator(1);
-  // }
-  // else {
-  configGenerator(brokerCount);
-  dockerExec();
-    // execute docker config file
-  });
-// });
 
 // build app menu
 const menuTemplate = [
@@ -62,30 +50,19 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
+ipcMain.on('brokers:input', (_, brokerCount) => {
+  if (brokerCount === 1 ) {
+    return dockerExec('./configs/docker/docker_single_node.yml')
+  }
+  configGenerator(brokerCount);
+  return dockerExec('./configs/docker/docker_multiple_nodes.yml');
+  }
+);
 
-// exec('docker exec -it kafka101 ./kafka-monitoring-stack-docker-compose/zk-kafka-single-node-stack.yml /bin/bash', (err, stdout, stderr) => {
-//   if(err) {
-//     console.log(err);
-//   }
-//   if(stderr) {
-//     console.log(stderr);
-//   }
-//   console.log(stdout);
-// });
-// exec('ls -la', (err, stdout, stderr) => {
-//   if(err) {
-//     console.log(err);
-//   }
-//   if(stderr) {
-//     console.log(stderr);
-//   }
-//   console.log(stdout);
-// });
+function dockerExec(path) {
+  const dockerCommand = 'docker-compose -f ' + path + ' up -d'
 
-function dockerExec() {
-
-    // exec('docker-compose -f  ./configs/docker_multiple_nodes.yml up -d', (err, stdout, stderr) => {
-    exec('docker-compose -f  ./configs/zk-kafka-multiple-nodes-stack.yml up -d', (err, stdout, stderr) => {
+  exec(dockerCommand, (err, stdout, stderr) => {
     if(err) {
       console.log(err);
     }
@@ -93,5 +70,5 @@ function dockerExec() {
       console.log(stderr);
     }
     console.log(stdout);
-    });
+  });
 }
