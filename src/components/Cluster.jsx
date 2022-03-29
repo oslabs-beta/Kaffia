@@ -12,10 +12,18 @@ class Cluster extends Component {
   render() {
     return (
       <>
-        <Brokers />
-        <Consumers />
-        <Producers />
-        <Topics />
+        <React.Suspense fallback={<>...</>}>
+          <Brokers />
+        </React.Suspense>
+        <React.Suspense fallback={<>...</>}>
+          <Consumers />
+        </React.Suspense>
+        <React.Suspense fallback={<>...</>}>
+          <Producers />
+        </React.Suspense>
+        <React.Suspense fallback={<>...</>}>
+          <Topics />
+        </React.Suspense>
       </>
     );
   }
