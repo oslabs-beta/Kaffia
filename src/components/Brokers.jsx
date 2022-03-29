@@ -5,6 +5,12 @@ class Brokers extends Component {
     super();
   }
 
+  componentDidMount() {
+    fetch('http://localhost:9090/api/v1/query?query=kafka_server_brokerstate')
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }
+
   render() {
     return (
       <div>

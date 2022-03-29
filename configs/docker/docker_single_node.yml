@@ -14,41 +14,25 @@
 # limitations under the License.
 version: '3'
 services:
-  # grafana:
-  #   image: "grafana/grafana"
-  #   ports:
-  #    - "3000:3000"
-  #   environment:
-  #     GF_PATHS_DATA : /var/lib/grafana
-  #     GF_SECURITY_ADMIN_PASSWORD : kafka
-  #   volumes:
-  #    - ./grafana/provisioning:/etc/grafana/provisioning
-  #    - ./grafana/dashboards:/var/lib/grafana/dashboards
-  #   container_name: grafana
-  #   depends_on:
-  #    - prometheus
-
   prometheus:
-    image: "prom/prometheus"
+    image: 'prom/prometheus'
     ports:
-     - "9090:9090"
+      - '9090:9090'
     volumes:
-     - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
-    command: "--config.file=/../prometheus/prometheus.yml"
+      - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
+    command: '--config.file=/../prometheus/prometheus.yml'
     container_name: prometheus
-
   jmx-kafka101:
-    image: "sscaling/jmx-prometheus-exporter"
+    image: 'sscaling/jmx-prometheus-exporter'
     ports:
-     - "5556:5556"
+      - '5556:5556'
     environment:
-     CONFIG_YML : "/../jmx_exporter/config.yml"
+      CONFIG_YML: '/../jmx_exporter/config.yml'
     volumes:
-     - ./../jmx_exporter/config_kafka101.yml:/../jmx_exporter/config.yml
+      - ./../jmx_exporter/config_kafka101.yml:/../jmx_exporter/config.yml
     container_name: jmx-kafka101
     depends_on:
-     - kafka101
-
+      - kafka101
   zk1:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -57,9 +41,8 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
     ports:
-     - 2181:2181
+      - 2181:2181
     container_name: zookeeper1
-
   kafka101:
     image: confluentinc/cp-kafka:latest
     depends_on:

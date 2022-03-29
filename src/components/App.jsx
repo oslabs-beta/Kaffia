@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
 
-import Brokers from './Brokers';
+const Brokers = React.lazy(() => import('./Brokers'));
+const Consumers = React.lazy(() => import('./Consumers'));
+const Producers = React.lazy(() => import('./Producers'));
+const Topics = React.lazy(() => import('./Topics'));
+
 import Cluster from './Cluster';
-import Dashboard from './Dashboard';
-import Consumers from './Consumers';
+import Overview from './Overview';
 import Performance from './Performance';
-import Producers from './Producers';
 import Settings from './Settings';
 import Sidebar from './Sidebar';
 import SplashPage from './SplashPage';
-import Topics from './Topics';
 
 class App extends Component {
   constructor() {
@@ -26,8 +27,12 @@ class App extends Component {
     });
   }
 
+  componentDidUpdate() {
+    console.log('hi');
+  }
+
   render() {
-    console.log(window.location.hash.split('#')[1]);
+    console.log(window.location.pathname);
     return (
       <HashRouter>
         {this.state.showSidebar && <Sidebar />}
@@ -40,12 +45,45 @@ class App extends Component {
                 <SplashPage toggleSidebar={this.toggleSidebar.bind(this)} />
               }
             ></Route>
-            <Route exact path="/overview" element={<Dashboard />} />
+
+            <Route exact path="/overview" element={<Overview />} />
             <Route exact path="/cluster" element={<Cluster />} />
-            <Route exact path="/brokers" element={<Brokers />} />
-            <Route exact path="/consumers" element={<Consumers />} />
-            <Route exact path="/producers" element={<Producers />} />
-            <Route exact path="/topics" element={<Topics />} />
+            <Route
+              exact
+              path="/brokers"
+              element={
+                <React.Suspense fallback={<>...</>}>
+                  <Brokers />
+                </React.Suspense>
+              }
+            />
+            <Route
+              exact
+              path="/consumers"
+              element={
+                <React.Suspense fallback={<>...</>}>
+                  <Consumers />
+                </React.Suspense>
+              }
+            />
+            <Route
+              exact
+              path="/producers"
+              element={
+                <React.Suspense fallback={<>...</>}>
+                  <Producers />
+                </React.Suspense>
+              }
+            />
+            <Route
+              exact
+              path="/topics"
+              element={
+                <React.Suspense fallback={<>...</>}>
+                  <Topics />
+                </React.Suspense>
+              }
+            />
             <Route exact path="/performance" element={<Performance />} />
             <Route exact path="/settings" element={<Settings />} />
           </Routes>

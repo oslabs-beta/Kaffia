@@ -5,6 +5,10 @@ class Settings extends Component {
     super();
   }
 
+  componentDidMount() {
+    console.log('hi');
+  }
+
   render() {
     return (
       <div>
