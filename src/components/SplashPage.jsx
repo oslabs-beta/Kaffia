@@ -7,8 +7,9 @@ export default function SplashPage() {
 
   const handleBrokerEntry = (event) => {
     event.preventDefault();
-    const brokers = parseInt(event.target[0].value);
-    ipcRenderer.send('brokers:input', brokers);
+    const brokerCount = parseInt(event.target[0].value);
+    console.log(brokerCount);
+    ipcRenderer.send('brokers:input', brokerCount);
   };
 
   const handleChange = (event) => {
