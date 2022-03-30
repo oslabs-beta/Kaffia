@@ -1,12 +1,26 @@
 version: '3'
 services:
-  prometheus:
-    image: "prom/prometheus"
+  grafana:
+    image: 'grafana/grafana'
     ports:
-     - "9090:9090"
+      - '3000:3000'
+    environment:
+      GF_PATHS_DATA: /var/lib/grafana
+      GF_SECURITY_ALLOW_EMBEDDING: 'true'
+      GF_AUTH_ANONYMOUS_ENABLED: true
     volumes:
-     - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
-    command: "--config.file=/../prometheus/prometheus.yml"
+      - ../grafana/provisioning:/etc/grafana/provisioning
+      - ../grafana/dashboards:/var/lib/grafana/dashboards
+    container_name: grafana
+    depends_on:
+      - prometheus
+  prometheus:
+    image: 'prom/prometheus'
+    ports:
+      - '9090:9090'
+    volumes:
+      - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
+    command: '--config.file=/../prometheus/prometheus.yml'
     container_name: prometheus
   zk1:
     image: confluentinc/cp-zookeeper:latest
@@ -16,5 +30,5 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
     ports:
-     - 2181:2181
+      - 2181:2181
     container_name: zookeeper1

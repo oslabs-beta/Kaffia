@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GrafChart from './GrafanaDash';
 
 class Performance extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class Performance extends Component {
     return (
       <div>
         <h1>Performance</h1>
+        <GrafChart />
       </div>
     );
   }
