@@ -1,4 +1,5 @@
 import { Card, Container } from '@mui/material';
+
 import React from 'react';
 
 function GrafChart() {
@@ -13,8 +14,7 @@ function GrafChart() {
           title="grafana-dashboard"
           width="100%"
           height="1080px"
-        //   src="http://localhost:3000"
-          src="https://rcervant.grafana.net/d/0zgKxhynk/kafka-overview?orgId=1&from=1648589106131&to=1648590906132"
+          src="http://localhost:3000/d/e-6AJQOik/kafka-cluster-global-healthcheck?orgId=1&refresh=5s&from=1648664561105&to=1648668161105"
         />
       </Card>
     </Container>

@@ -1,5 +1,4 @@
 const path = require('path');
-const fetch = require('electron-fetch').default;
 const { app, ipcMain, Menu } = require('electron');
 const { exec } = require('child_process');
 const configGenerator = require('./configs/configGenerator');
@@ -16,6 +15,12 @@ app.on('ready', () => {
   mainWindow = new MainWindow(`file://${__dirname}/src/index.html`);
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
+  mainWindow.on('show', () => {
+    setTimeout(() => {
+      mainWindow.focus();
+    }, 200);
+  });
+  mainWindow.show();
 
   // creates popup window that is opened / closed when user clicks on taskbar icon
   popupWindow = new PopupWindow(`file://${__dirname}/src/popup.html`);
@@ -51,22 +56,21 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 ipcMain.on('brokers:input', (_, brokerCount) => {
-  if (brokerCount === 1 ) {
-    return dockerExec('./configs/docker/docker_single_node.yml')
+  if (brokerCount === 1) {
+    return dockerExec('./configs/docker/docker_single_node.yml');
   }
   configGenerator(brokerCount);
   return dockerExec('./configs/docker/docker_multiple_nodes.yml');
-  }
-);
+});
 
 function dockerExec(path) {
-  const dockerCommand = 'docker-compose -f ' + path + ' up -d'
+  const dockerCommand = 'docker-compose -f ' + path + ' up -d';
 
   exec(dockerCommand, (err, stdout, stderr) => {
-    if(err) {
+    if (err) {
       console.log(err);
     }
-    if(stderr) {
+    if (stderr) {
       console.log(stderr);
     }
     console.log(stdout);
