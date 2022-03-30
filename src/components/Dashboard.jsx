@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import GrafChart from './GrafChart';
 
 class Dashboard extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class Dashboard extends Component {
     return (
       <div>
         <h1>Dashboard</h1>
+        {/* <GrafChart/> */}
       </div>
     );
   }
