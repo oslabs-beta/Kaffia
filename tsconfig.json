@@ -6,6 +6,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "allowJs": true,
+    "sourceMap": true,
     "noImplicitAny": true
   },
   "include": ["app/*", "configs/*", "src/**/*", "electron.ts"]
