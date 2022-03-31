@@ -1,14 +1,15 @@
 const path = require('path');
 const { app, ipcMain, Menu } = require('electron');
 const { exec } = require('child_process');
-const configGenerator = require('./configs/configGenerator.js');
+const configGenerator = require('./configs/configGenerator.ts');
 
 const MainWindow = require('./app/MainWindow.jsx');
 const PopupWindow = require('./app/PopupWindow.jsx');
 const MetricTray = require('./app/MetricTray.jsx');
 
-let mainWindow;
-let tray;
+let mainWindow: null | typeof MainWindow;
+let tray: null | typeof MetricTray;
+let popupWindow: null | typeof PopupWindow;
 
 app.on('ready', () => {
   // creates main electron window using menu from template below
@@ -31,7 +32,7 @@ app.on('ready', () => {
 });
 
 // build app menu
-const menuTemplate = [
+const menuTemplate: {}[] = [
   {
     label: 'File',
     submenu: [
@@ -55,7 +56,7 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
-ipcMain.on('brokers:input', (_, brokerCount) => {
+ipcMain.on('brokers:input', (_: any, brokerCount: number) => {
   if (brokerCount === 1) {
     return dockerExec('./configs/docker/docker_single_node.yml');
   }
@@ -63,10 +64,10 @@ ipcMain.on('brokers:input', (_, brokerCount) => {
   return dockerExec('./configs/docker/docker_multiple_nodes.yml');
 });
 
-function dockerExec(path) {
+function dockerExec(path: String) {
   const dockerCommand = 'docker-compose -f ' + path + ' up -d';
 
-  exec(dockerCommand, (err, stdout, stderr) => {
+  exec(dockerCommand, (err: String, stdout: String, stderr: String) => {
     if (err) {
       console.log(err);
     }
