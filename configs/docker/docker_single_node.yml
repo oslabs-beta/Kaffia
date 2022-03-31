@@ -22,6 +22,8 @@ services:
       GF_PATHS_DATA: /var/lib/grafana
       GF_SECURITY_ALLOW_EMBEDDING: true
       GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_ALERTING_ENABLED: false
+      GF_SMTP_ENABLED: true
     volumes:
       - ../grafana/provisioning:/etc/grafana/provisioning
       - ../grafana/dashboards:/var/lib/grafana/dashboards

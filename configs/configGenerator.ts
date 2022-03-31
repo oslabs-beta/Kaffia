@@ -1,6 +1,6 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
-const path = require('path');
+// const path = require('path');
 
 /**
  * dockerConfigGenerator creates a yaml file for a multi-container Docker application
@@ -11,7 +11,7 @@ const path = require('path');
  *
  */
 
-const dockerConfigGenerator = (brokerCount) => {
+const dockerConfigGenerator = (brokerCount: number) => {
   try {
     const dockerConfig = yaml.load(
       fs.readFileSync(
@@ -20,14 +20,14 @@ const dockerConfigGenerator = (brokerCount) => {
       )
     );
 
-    let jmxConfig = {
+    const jmxTemplate = {
       image: 'sscaling/jmx-prometheus-exporter',
       environment: {
         CONFIG_YML: '/../jmx_exporter/config.yml',
         JVM_OPTS: '-Xmx512M',
       },
     };
-    let kafkaConfig = {
+    const kafkaTemplate = {
       image: 'confluentinc/cp-kafka:latest',
       depends_on: ['zk1'],
       environment: {
@@ -43,8 +43,8 @@ const dockerConfigGenerator = (brokerCount) => {
     };
 
     for (let i = 0; i < brokerCount; i++) {
-      jmxConfig = {
-        ...jmxConfig,
+      const jmxConfig = {
+        ...jmxTemplate,
         ports: [`${5556 + i}:5556`],
         volumes: [
           `../jmx_exporter/config_kafka10${
@@ -56,12 +56,12 @@ const dockerConfigGenerator = (brokerCount) => {
       };
       dockerConfig.services[`jmx-kafka${101 + i}`] = jmxConfig;
 
-      kafkaConfig = {
-        ...kafkaConfig,
+      const kafkaConfig = {
+        ...kafkaTemplate,
         ports: [`909${i + 1}:909${i + 1}`, `999${i + 1}:999${i + 1}`],
         container_name: `kafka${101 + i}`,
         environment: {
-          ...kafkaConfig.environment,
+          ...kafkaTemplate.environment,
           KAFKA_BROKER_ID: 101 + i,
           KAFKA_JMX_PORT: 9991 + i,
           KAFKA_ADVERTISED_LISTENERS: `PLAINTEXT://kafka10${
@@ -93,7 +93,7 @@ const dockerConfigGenerator = (brokerCount) => {
  *
  */
 
-const promConfigGenerator = (brokerCount) => {
+const promConfigGenerator = (brokerCount: number) => {
   try {
     const promConfig = yaml.load(
       fs.readFileSync(
@@ -118,7 +118,7 @@ const promConfigGenerator = (brokerCount) => {
   }
 };
 
-module.exports = (brokerCount) => {
+module.exports = (brokerCount: number) => {
   dockerConfigGenerator(brokerCount);
   promConfigGenerator(brokerCount);
 };
