@@ -40,6 +40,14 @@ const menuTemplate = [
       },
     ],
   },
+  {
+    label: 'Help',
+    submenu: [
+      {
+        role: 'nope',
+      },
+    ],
+  },
 ];
 
 if (process.platform === 'darwin') {

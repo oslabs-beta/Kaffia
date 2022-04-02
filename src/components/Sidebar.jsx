@@ -48,6 +48,9 @@ export default function Sidebar() {
             <MenuItem component={Link} to="/topics">
               <ListItemText primary="Topics" />
             </MenuItem>
+            <MenuItem component={Link} to="/HelpTab">
+              <ListItemText primary="HelpTab" />
+            </MenuItem>
           </List>
         </Collapse>
         <Divider />
