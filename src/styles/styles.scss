@@ -1,5 +1,19 @@
-.btn-icon-clipboard {
-    height: 40px;
-    width: 100px;
-    border-radius: 20px;
+.codeblock {
+  display: flex;
+  flex-direction: column;
+  align-self: right;
+  background-color: rgb(32, 32, 87);
+  border-radius: 7px; 
+   
+}
+
+.copyButton {
+  align-self: flex-end;
+  height: 20px;
+  width: 40px;
+}
+
+.copyButton:hover {
+  color: aqua;
+  cursor: pointer;
 }

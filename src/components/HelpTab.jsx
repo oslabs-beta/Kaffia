@@ -93,8 +93,9 @@ class HelpTab extends Component {
         paddingLeft="15px"
         paddingRight="15px"
       ></Grid> */}
-        <div class="codeblock">
           <h3>Create a Topic: </h3>
+        <div class="codeblock">
+          <button type="button" class="copyButton" >Copy</button>
           <span>$ docker exec -it kafka101 \ <br></br>
             kafka-topics \<br></br>
             --create \<br></br>
@@ -103,7 +104,6 @@ class HelpTab extends Component {
             --topic demo-topic \<br></br>
             --bootstrap-server kafka101:29092<br></br>
           </span>
-          <button type="button" class="btn-icon-clipboard" data-clipboard-text="ambulance" title="Copy to clipboard">Copy To Clipboard</button>
           {/* <CopyToClipboard
            text={"ni ni-active-40"}
            onCopy={() => setCopiedText("ni ni-active-40")}
