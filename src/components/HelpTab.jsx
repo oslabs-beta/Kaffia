@@ -1,126 +1,81 @@
 import React, { Component, useState } from 'react';
-import { CopyToClipboard } from "react-copy-to-clipboard";
-// import { CopyToClipboard } from "react-CopyToClipboard";
-// import { makeStyles } from "@material-ui/core/styles";
-// import { useTheme } from "@material-ui/core/styles";
-// import Box from "@material-ui/core/Box";
-// import Grid from "@material-ui/core/Grid";
-// import Tooltip from "@material-ui/core/Tooltip";
+const { clipboard } = require('electron')
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-// // core components
-// import componentStyles from "assets/theme/views/admin/icons.js";
+const HelpTab = () => {
+  
+  const [copiedText, setCopiedText] = useState('');
+  const topic = 'docker exec -it kafka101 \
+  kafka-topics \
+  --create \
+  --partitions 6 \
+  --replication-factor 3 \
+  --topic demo-topic \
+  --bootstrap-server kafka101:29092';
+  const producer = 'docker exec -it kafka101 \
+  kafka-producer-perf-test \
+  --throughput 500 \
+  --num-records 100000000 \
+  --topic demo-topic \
+  --record-size 100 \
+  --producer-props bootstrap.servers=kafka101:29092';
+  const consumer = 'docker exec -it kafka101 \
+  kafka-consumer-perf-test \
+  --messages 100000000 \
+  --timeout 1000000 \
+  --topic demo-topic \
+  --reporting-interval 1000 \
+  --show-detailed-stats \
+  --bootstrap-server kafka101:29092';
 
-// const useStyles = makeStyles(componentStyles);
-
-// const Icons = () => {
-//   const classes = useStyles();
-//   const theme = useTheme();
-//   const [copiedText, setCopiedText] = useState();
-//   return (
-//     <>
-//       <Grid
-//         item
-//         lg={3}
-//         md={6}
-//         xs={12}
-//         component={Box}
-//         paddingLeft="15px"
-//         paddingRight="15px"
-//       >
-//         <CopyToClipboard
-//           text={"ni ni-active-40"}
-//           onCopy={() => setCopiedText("ni ni-active-40")}
-//         >
-//           <Tooltip
-//             title={
-//               copiedText === "ni ni-active-40"
-//                 ? "This was Copied!"
-//                 : "Copy To Clipboard"
-//             }
-//             placement="top"
-//           >
-//             <Box
-//               component="button"
-//               fontFamily="inherit"
-//               fontSize="16px"
-//               fontWeight="400"
-//               lineHeight="1.25"
-//               display="inline-block"
-//               width="100%"
-//               margin=".5rem 0"
-//               padding="24px"
-//               textAlign="left"
-//               color={theme.palette.gray[800]}
-//               border="0"
-//               borderRadius="4px"
-//               className={classes.button}
-//               data-clipboard-text="album-2"
-//               type="button"
-//             >
-//               <div>
-//                 <i className="ni ni-active-40" />
-//                 <span>active-40</span>
-//               </div>
-//             </Box>
-//           </Tooltip>
-//         </CopyToClipboard>
-//       </Grid>
-//     </>
-//   );
-// };
-
-
-
-
-
-
-class HelpTab extends Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-  // const [copiedText, setCopiedText] = useState();
-    return (
-      <div>
-        <h1>HelpTab</h1>
-        {/* <Grid
-        item
-        lg={3}
-        md={6}
-        xs={12}s
-        component={Box}
-        paddingLeft="15px"
-        paddingRight="15px"
-      ></Grid> */}
-          <h3>Create a Topic: </h3>
-        <div class="codeblock">
-          <button type="button" class="copyButton" >Copy</button>
-          <span>$ docker exec -it kafka101 \ <br></br>
-            kafka-topics \<br></br>
-            --create \<br></br>
-            --partitions 6 \<br></br>
-            --replication-factor 3 \<br></br>
-            --topic demo-topic \<br></br>
-            --bootstrap-server kafka101:29092<br></br>
-          </span>
-          {/* <CopyToClipboard
-           text={"ni ni-active-40"}
-           onCopy={() => setCopiedText("ni ni-active-40")}
-          >
-          <Tooltip
-            title={
-              copiedText === "ni ni-active-40"
-                ? "This was Copied!"
-                : "Copy To Clipboard"
-            }
-            placement="top"
-          ></Tooltip>
-      </CopyToClipboard> */}
-        </div>
+  return (
+    <div>
+      <h1>HelpTab</h1>
+      <h3>Create a Topic:</h3>
+      <div class="codeblock">
+        <span class="code" value={topic} >$ docker exec -it kafka101 \ <br></br>
+          kafka-topics \<br></br>
+          --create \<br></br>
+          --partitions 6 \<br></br>
+          --replication-factor 3 \<br></br>
+          --topic demo-topic \<br></br>
+          --bootstrap-server kafka101:29092<br></br>
+        </span>
+        <CopyToClipboard text={copiedText}>
+          <button type="button" id="topic" class="copyButton" onClick={e => setCopiedText(topic)} >Copy</button>
+        </CopyToClipboard>
       </div>
-    );
-  }
+      <h3>Produce messages:</h3>
+      <div class="codeblock">
+        <span class="code" value={producer} >$ docker exec -it kafka101 \ <br></br>
+          kafka-producer-perf-test \<br></br>
+          --throughput 500 \<br></br>
+          --num-records 100000000 \<br></br>
+          --topic demo-topic \<br></br>
+          --record-size 100 \<br></br>
+          --producer-props bootstrap.servers=kafka101:29092<br></br>
+        </span>
+        <CopyToClipboard text={copiedText}>
+          <button type="button" id="producer" class="copyButton" onClick={e => setCopiedText(producer)} >Copy</button>
+        </CopyToClipboard>
+      </div>
+      <h3>Consume messages:</h3>
+      <div class="codeblock">
+        <span class="code" value={consumer} >$ docker exec -it kafka101 \ <br></br>
+          kafka-consumer-perf-test \<br></br>
+          --messages 100000000 \<br></br>
+          --timeout 1000000 \<br></br>
+          --topic demo-topic \<br></br>
+          --reporting-interval 1000 \<br></br>
+          --show-detailed-stats \<br></br>
+          --bootstrap-server kafka101:29092<br></br>
+        </span>
+        <CopyToClipboard text={copiedText}>
+          <button type="button" id="consumer" class="copyButton" onClick={e => setCopiedText(consumer)} >Copy</button>
+        </CopyToClipboard>
+      </div>
+    </div>
+  );
 }
 
 export default HelpTab;
