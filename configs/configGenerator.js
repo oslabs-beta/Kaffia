@@ -2,6 +2,9 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 
+const grafanaPanels = require('./grafana/templates/panels_template.js');
+const jmxMetrics = require('./jmx_exporter/metric_list.js');
+
 /**
  * dockerConfigGenerator creates a yaml file for a multi-container Docker application
  * that uses Grafana, Prometheus, jmx-exporter, and Kafka to create a self-monitoring
@@ -76,7 +79,6 @@ const dockerConfigGenerator = (brokerCount) => {
       };
       dockerConfig.services[`kafka${101 + i}`] = kafkaConfig;
     }
-
     fs.writeFileSync(
       path.join(__dirname, './docker/docker_multiple_nodes.yml'),
       yaml.dump(dockerConfig, { noRefs: true })
@@ -96,10 +98,7 @@ const dockerConfigGenerator = (brokerCount) => {
 const promConfigGenerator = (brokerCount) => {
   try {
     const promConfig = yaml.load(
-      fs.readFileSync(
-        path.join(__dirname, './prometheus/prometheus.yml'),
-        'utf8'
-      )
+      fs.readFileSync(path.join(__dirname, 'prometheus/prometheus.yml'), 'utf8')
     );
 
     const promTargets = [];
@@ -110,7 +109,7 @@ const promConfigGenerator = (brokerCount) => {
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
 
     fs.writeFileSync(
-      path.join(__dirname, './prometheus/prometheus.yml'),
+      path.join(__dirname, 'prometheus/prometheus.yml'),
       yaml.dump(promConfig, { noRefs: true })
     );
   } catch (e) {
@@ -118,7 +117,46 @@ const promConfigGenerator = (brokerCount) => {
   }
 };
 
+const metricConfigurator = (brokerCount, userMetrics) => {
+  const config_kafka_template = yaml.load(
+    fs.readFileSync(
+      path.join(__dirname, 'jmx_exporter/config_kafka_template.yml'),
+      'utf8'
+    )
+  );
+
+  const whitelist = new Set();
+  for (const dashboard in userMetrics) {
+    const grafanaFile = JSON.parse(
+      fs.readFileSync(
+        path.join(__dirname, `grafana/templates/${grafanaFile}.json`),
+        'utf-8'
+      )
+    );
+    for (const panel of userMetrics[dashboard]) {
+      jmxMetrics[dashboard][panel].forEach(whitelist.add, whitelist);
+      grafanaFile.panels.push(...grafanaPanels[dashboard][panel]);
+    }
+    fs.writeFileSync(
+      path.join(__dirname, `./grafana/dashboards/${grafanaFile}.json`),
+      JSON.stringify(grafanaFile),
+      { noRefs: true }
+    );
+  }
+  config_kafka_template.whitelistObjectNames = [...whitelist];
+  for (let i = 0; i < brokerCount; i++) {
+    config_kafka_template.hostPort = `kafka10${i + 1}:999${i + 1}`;
+    fs.writeFileSync(
+      path.join(__dirname, `./jmx_exporter/config_kafka10${i + 1}.yml`),
+      yaml.dump(config_kafka_template, { noRefs: true })
+    );
+  }
+};
+
 module.exports = (brokerCount) => {
-  dockerConfigGenerator(brokerCount);
   promConfigGenerator(brokerCount);
+  // metricConfigurator(2, {
+  //   broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
+  // });
+  dockerConfigGenerator(brokerCount);
 };

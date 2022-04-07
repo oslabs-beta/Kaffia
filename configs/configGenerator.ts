@@ -1,6 +1,8 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
-// const path = require('path');
+
+const grafanaPanels = require('./grafana/templates/panels_template.js');
+const jmxMetrics = require('./jmx_exporter/metric_list.js');
 
 /**
  * dockerConfigGenerator creates a yaml file for a multi-container Docker application
@@ -118,7 +120,42 @@ const promConfigGenerator = (brokerCount: number) => {
   }
 };
 
+const metricConfigurator = (
+  brokerCount?: number,
+  metric?: { [key: string]: string[] }
+) => {
+  // jmx config, yaml file
+  const config_kafka_template = yaml.load(
+    fs.readFileSync(
+      path.join(__dirname, 'jmx_exporter/config_kafka_template.yml'),
+      'utf8'
+    )
+  );
+  // broker dashboard template, JSON file
+  const broker_hard_disk_usage = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, 'grafana/templates/broker_hard_disk_usage.json'),
+      'utf-8'
+    )
+  );
+
+  // for (const dashboard in metric) {
+  //   for (const panel of metric[dashboard]) {
+  //     config_kafka_template.whitelist.push(
+  //       jmxMetrics[dashboard][panel].whitelist
+  //     );
+  //     config_kafka_template.rules.push(jmxMetrics[dashboard][panel].rules);
+  //     broker_hard_disk_usage.panels.push(...grafanaPanels[dashboard][panel]);
+  //   }
+  // }
+  console.log(config_kafka_template);
+  console.log(broker_hard_disk_usage);
+};
+
 module.exports = (brokerCount: number) => {
-  dockerConfigGenerator(brokerCount);
+  if (brokerCount > 1) dockerConfigGenerator(brokerCount);
   promConfigGenerator(brokerCount);
+  metricConfigurator(1, {
+    broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
+  });
 };
