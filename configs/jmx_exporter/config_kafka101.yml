@@ -24,7 +24,7 @@ lowercaseOutputLabelNames: true
 #Whitelist is used to reduce scrapping time
 whitelistObjectNames:
   - java.lang:*
-  # - kafka.cluster:*
+  - kafka.cluster:*
   - kafka.controller:*
   - kafka.log:*
   - kafka.server:type=KafkaServer,name=BrokerState

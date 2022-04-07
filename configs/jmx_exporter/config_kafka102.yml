@@ -14,7 +14,7 @@
 # limitations under the License.
 
 #---------------------------------------------------------------------------------------------------------
-# Kafka Broker JMX Metrics : 
+# Kafka Broker JMX Metrics :
 # Compatible with version Apache Kafka v2.x.x / Confluent Plateform 5.x.x
 #---------------------------------------------------------------------------------------------------------
 hostPort: kafka102:9992
@@ -30,8 +30,8 @@ whitelistObjectNames:
   - kafka.server:type=KafkaServer,name=BrokerState
   - kafka.server:type=KafkaRequestHandlerPool,*
   - kafka.server:type=BrokerTopicMetrics,*
-#  - kafka.server:type=DelayedFetchMetrics,*
-#  - kafka.server:type=DelayedOperationPurgatory,*
+  #  - kafka.server:type=DelayedFetchMetrics,*
+  #  - kafka.server:type=DelayedOperationPurgatory,*
   - kafka.server:type=FetcherLagMetrics,*
   - kafka.server:type=FetcherStats,*
   - kafka.server:type=Request,*
@@ -46,11 +46,11 @@ whitelistObjectNames:
   - kafka.network:type=Processor,*
   - kafka.network:type=SocketServer,*
   - kafka.network:type=RequestMetrics,*
-#  - kafka.network:type=RequestMetrics,name=*,request=OffsetCommit,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=FetchConsumer,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=FetchFollower,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=Produce,version=*
-#  - kafka.network:type=RequestMetrics,name=*,request=Metadata,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=OffsetCommit,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=FetchConsumer,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=FetchFollower,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=Produce,version=*
+  #  - kafka.network:type=RequestMetrics,name=*,request=Metadata,version=*
   - kafka.coordinator.group:*
 blacklistObjectNames:
   - java.lang:type=ClassLoading,*
