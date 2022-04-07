@@ -5,6 +5,7 @@ const Brokers = React.lazy(() => import('./Brokers'));
 const Consumers = React.lazy(() => import('./Consumers'));
 const Producers = React.lazy(() => import('./Producers'));
 const Topics = React.lazy(() => import('./Topics'));
+const HelpTab = React.lazy(() => import('./HelpTab'));
 
 import Cluster from './Cluster';
 import Overview from './Overview';
@@ -81,6 +82,15 @@ class App extends Component {
               element={
                 <React.Suspense fallback={<>...</>}>
                   <Topics />
+                </React.Suspense>
+              }
+            />
+            <Route
+              exact
+              path="/HelpTab"
+              element={
+                <React.Suspense fallback={<>...</>}>
+                  <HelpTab />
                 </React.Suspense>
               }
             />

@@ -15,6 +15,7 @@ class MainWindow extends BrowserWindow {
       width: 1000,
       minWidth: 800,
       frame: true,
+      autoHideMenuBar: false,
       resizable: true,
       show: true,
     });

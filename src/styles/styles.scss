@@ -1,0 +1,28 @@
+.codeblock {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(32, 32, 87);
+  // background-color: #565656;
+  border-radius: 7px; 
+}
+
+.copyButton {
+  position: absolute;
+  right: 0;
+  text-align: center;
+  margin: 10px;
+  border-radius: 5px;
+  height: 25px;
+  width: 50px;
+}
+
+.copyButton:hover {
+  color: blue;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.code {
+  margin: 20px;
+}
