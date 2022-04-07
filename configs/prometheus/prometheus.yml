@@ -12,4 +12,8 @@ scrape_configs:
       - targets:
           - jmx-kafka101:5556
           - jmx-kafka102:5556
+<<<<<<< HEAD
           - jmx-kafka103:5556
+=======
+          - jmx-kafka103:5556
+>>>>>>> f3c1ad006c2a2b461708a81564853b870761426f
