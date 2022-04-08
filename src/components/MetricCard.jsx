@@ -22,7 +22,7 @@ export default function MetricCard(props) {
                 <CardContent>
                     <Grid container spacing={6} rowSpacing={0.1} >                      
                         <Grid item xs={12} justifyContent="space-between">
-                            <iframe src={metric} alt={metric}></iframe>
+                                <iframe src={metric} height="100%" width="100%"></iframe>   
                         </Grid>
                     </Grid>
                     </CardContent>
