@@ -33,12 +33,14 @@ function Brokers() {
             </CardContent>
           </Card>
         </Grid> */}
+      <Grid container spacing={10} rowSpacing={9} columnSpacing={3}>
 
-        {Object.keys(panels).map((metric, i) => (
-          <Grid item xs={6} key={i}>
-            <MetricCard metric={metric} />
+        {Object.values(panels).map((metricURL, i) => (
+          <Grid item xs={6} key={`${metricURL}+${i}`}>
+            <MetricCard metricURL={metricURL} key={metricURL}/>
           </Grid>
             ))}
+        </Grid> 
         {/* </Grid> */}
     </>
   );
