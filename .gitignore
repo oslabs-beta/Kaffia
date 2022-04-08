@@ -1,8 +1,10 @@
 node_modules
 
 # auto-generated config files
+configs/grafana/dashboards/*
 configs/docker/docker_multiple_nodes.yml
 configs/prometheus/prometheus.yml
+configs/jmx_exporter/config_kafka1*
 
 # experimental configs folder
 configs2
