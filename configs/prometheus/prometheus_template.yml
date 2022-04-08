@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: null
+rule_files: null
+scrape_configs:
+  - job_name: kafka
+    static_configs:
+      - targets:
