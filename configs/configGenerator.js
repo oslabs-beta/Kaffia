@@ -106,17 +106,20 @@ const dockerConfigGenerator = (brokerCount) => {
 
 const promConfigGenerator = (brokerCount) => {
   try {
-    // read in prometheus.yml file and add jmx-exporter ports depending on
+    // read in prometheus.yml template file and add jmx-exporter ports depending on
     // the user's preferred number of Kafka brokers
     const promConfig = yaml.load(
-      fs.readFileSync(path.join(__dirname, 'prometheus/prometheus.yml'), 'utf8')
+      fs.readFileSync(
+        path.join(__dirname, 'prometheus/prometheus_template.yml'),
+        'utf8'
+      )
     );
     const promTargets = [];
     for (let i = 0; i < brokerCount; i++) {
       promTargets.push(`jmx-kafka10${i + 1}:5556`);
     }
 
-    // add ports to scrape to the yml file and save changes
+    // add ports to scrape to the yml file and save changes into completed yml file
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
     fs.writeFileSync(
       path.join(__dirname, 'prometheus/prometheus.yml'),
@@ -137,6 +140,10 @@ const promConfigGenerator = (brokerCount) => {
  */
 
 const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
+  // create Grafana dashboard folder if it does not already exist
+  if (!fs.existsSync(path.join(__dirname, 'grafana/dashboards'))) {
+    fs.mkdirSync(path.join(__dirname, 'grafana/dashboards'));
+  }
   // delete existing dashboards from previous cluster creation, which may have different settings
   const existingDashboards = fs.readdirSync(
     path.join(__dirname, 'grafana/dashboards')
