@@ -9,13 +9,14 @@ const jmxMetrics = require('./jmx_exporter/metric_list.js');
  * dockerConfigGenerator creates a yaml file for a multi-container Docker application
  * that uses Grafana, Prometheus, jmx-exporter, and Kafka to create a self-monitoring
  * cluster.
- * @param brokerCount
+ * @param brokerCount: user-specified number of Kafka brokers
  * @returns void
  *
  */
 
 const dockerConfigGenerator = (brokerCount) => {
   try {
+    // load in the multi-container Docker yaml template
     const dockerConfig = yaml.load(
       fs.readFileSync(
         path.join(__dirname, './docker/docker_multiple_nodes_template.yml'),
@@ -23,6 +24,8 @@ const dockerConfigGenerator = (brokerCount) => {
       )
     );
 
+    // define the properties for the jmx-exporter and Kafka cluster services
+    // that are the same in each cluster
     let jmxConfig = {
       image: 'sscaling/jmx-prometheus-exporter',
       environment: {
@@ -45,6 +48,8 @@ const dockerConfigGenerator = (brokerCount) => {
       },
     };
 
+    // generate the unique, cluster-specific properties for the jmx-exporter
+    // and Kafka services according to the user's preferred broker count
     for (let i = 0; i < brokerCount; i++) {
       jmxConfig = {
         ...jmxConfig,
@@ -79,6 +84,9 @@ const dockerConfigGenerator = (brokerCount) => {
       };
       dockerConfig.services[`kafka${101 + i}`] = kafkaConfig;
     }
+
+    // after adding the required services for each broker, save the completed template
+    // to a filepath that will then be used to launch the Docker app
     fs.writeFileSync(
       path.join(__dirname, './docker/docker_multiple_nodes.yml'),
       yaml.dump(dockerConfig, { noRefs: true })
@@ -89,25 +97,27 @@ const dockerConfigGenerator = (brokerCount) => {
 };
 
 /**
- *
- * @param brokerCount
+ * promConfigGenerator creates a yaml file for a multi-container Docker application
+ * to enable Prometheus monitoring of the jmx-exporter exposing Kafka metrics
+ * @param brokerCount: user-specified number of Kafka brokers
  * @returns void
  *
  */
 
 const promConfigGenerator = (brokerCount) => {
   try {
+    // read in prometheus.yml file and add jmx-exporter ports depending on
+    // the user's preferred number of Kafka brokers
     const promConfig = yaml.load(
       fs.readFileSync(path.join(__dirname, 'prometheus/prometheus.yml'), 'utf8')
     );
-
     const promTargets = [];
     for (let i = 0; i < brokerCount; i++) {
       promTargets.push(`jmx-kafka10${i + 1}:5556`);
     }
 
+    // add ports to scrape to the yml file and save changes
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
-
     fs.writeFileSync(
       path.join(__dirname, 'prometheus/prometheus.yml'),
       yaml.dump(promConfig, { noRefs: true })
@@ -117,33 +127,57 @@ const promConfigGenerator = (brokerCount) => {
   }
 };
 
-const metricConfigurator = (brokerCount, userMetrics) => {
+/**
+ * promConfigGenerator creates multiple yaml files for the jmx-exporters to only
+ * expose the metrics that the user would like to view. Additionally, the method
+ * constructs Grafana dashboards using those user-specified metrics.
+ * @param brokerCount: user-specified number of Kafka brokers
+ * @returns void
+ *
+ */
+
+const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
+  // delete existing dashboards from previous cluster creation, which may have different settings
+  const existingDashboards = fs.readdirSync(
+    path.join(__dirname, 'grafana/dashboards')
+  );
+  existingDashboards.forEach((dashboard) => {
+    fs.unlinkSync(path.join(__dirname, 'grafana/dashboards', dashboard));
+  });
+
+  // load template for jmx-exporter to add specific metrics to whtielist
   const config_kafka_template = yaml.load(
     fs.readFileSync(
       path.join(__dirname, 'jmx_exporter/config_kafka_template.yml'),
       'utf8'
     )
   );
-
   const whitelist = new Set();
+
+  // loop through each user-selected dashboard to add panels to Prometheus file
   for (const dashboard in userMetrics) {
+    // grab Grafana file corresponding to selected dashboard
     const grafanaFile = JSON.parse(
       fs.readFileSync(
-        path.join(__dirname, `grafana/templates/${grafanaFile}.json`),
+        path.join(__dirname, `grafana/templates/${dashboard}.json`),
         'utf-8'
       )
     );
+    // add jmx-exporter metric to whitelist to scrape that item
+    // add panel to Grafana dashboard
     for (const panel of userMetrics[dashboard]) {
       jmxMetrics[dashboard][panel].forEach(whitelist.add, whitelist);
       grafanaFile.panels.push(...grafanaPanels[dashboard][panel]);
     }
     fs.writeFileSync(
-      path.join(__dirname, `./grafana/dashboards/${grafanaFile}.json`),
+      path.join(__dirname, `./grafana/dashboards/${dashboard}.json`),
       JSON.stringify(grafanaFile),
       { noRefs: true }
     );
   }
   config_kafka_template.whitelistObjectNames = [...whitelist];
+
+  // save jmx-exporter config files with correct ports
   for (let i = 0; i < brokerCount; i++) {
     config_kafka_template.hostPort = `kafka10${i + 1}:999${i + 1}`;
     fs.writeFileSync(
@@ -154,9 +188,39 @@ const metricConfigurator = (brokerCount, userMetrics) => {
 };
 
 module.exports = (brokerCount) => {
+  // run all three config methods each time user submits form with preferences
   promConfigGenerator(brokerCount);
-  // metricConfigurator(2, {
-  //   broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
-  // });
+  jvmGrafanaConfigGenerator(brokerCount, {
+    broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
+    broker_jvm_os: [
+      'memory_usage',
+      'garbage_collection',
+      'cpu_usage',
+      'open_file_descriptors',
+      'available_memory',
+    ],
+    broker_performance: [
+      'request_total_time',
+      'idle_percent',
+      'request_rate',
+      'queue_size',
+      'queue_size',
+      'queue_time',
+      'time_placeholder',
+    ],
+    broker_zookeeper: ['zookeeper_metrics'],
+    cluster_healthcheck: [
+      'core_healthcheck',
+      'throughput_io',
+      'isr_count_change',
+      'leaders_partitions',
+    ],
+    cluster_replication: [
+      'replication_io',
+      'replication_lag',
+      'replica_fetcher',
+    ],
+    topics_logs: ['log_info'],
+  });
   dockerConfigGenerator(brokerCount);
 };
