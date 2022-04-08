@@ -7,8 +7,8 @@ services:
     environment:
       GF_PATHS_DATA: /var/lib/grafana
       GF_SECURITY_ALLOW_EMBEDDING: 'true'
-      GF_AUTH_ANONYMOUS_ENABLED: true
-      GF_SMTP_ENABLED: true
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_SMTP_ENABLED: 'true'
       GF_SECURITY_ADMIN_PASSWORD: kaffia
     volumes:
       - ../grafana/provisioning:/etc/grafana/provisioning

@@ -26,6 +26,7 @@
     "@babel/preset-react": "^7.16.7",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.5",
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.2",
     "babel-loader": "^8.2.3",
