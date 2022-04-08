@@ -1,3 +1,8 @@
 node_modules
+
+# auto-generated config files
 configs/docker/docker_multiple_nodes.yml
+configs/prometheus/prometheus.yml
+
+# experimental configs folder
 configs2

@@ -3,6 +3,7 @@ import Brokers from './Brokers';
 import Consumers from './Consumers';
 import Producers from './Producers';
 import Topics from './Topics';
+import HelpTab from './HelpTab';
 
 class Cluster extends Component {
   constructor() {
@@ -23,6 +24,9 @@ class Cluster extends Component {
         </React.Suspense>
         <React.Suspense fallback={<>...</>}>
           <Topics />
+        </React.Suspense>
+        <React.Suspense fallback={<>...</>}>
+          <HelpTab />
         </React.Suspense>
       </>
     );

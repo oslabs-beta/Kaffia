@@ -56,15 +56,16 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 ipcMain.on('brokers:input', (_, brokerCount) => {
+  configGenerator(brokerCount);
   if (brokerCount === 1) {
     return dockerExec('./configs/docker/docker_single_node.yml');
   }
-  configGenerator(brokerCount);
   return dockerExec('./configs/docker/docker_multiple_nodes.yml');
 });
 
 function dockerExec(path) {
-  const dockerCommand = 'docker-compose -f ' + path + ' up -d';
+  const dockerCommand =
+    'docker-compose -p kaffia-cluster -f ' + path + ' up -d';
 
   exec(dockerCommand, (err, stdout, stderr) => {
     if (err) {

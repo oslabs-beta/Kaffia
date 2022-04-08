@@ -13,28 +13,16 @@ import Grid from '@mui/material/Grid';
 
 
 export default function MetricCard(props) {
-    const { CatName, CatImage, CatPersonality, CatDescription} = props.metric;
+    const { metric } = props.metric;
 
     return (
         <>
-            <Card key={`CatName${CatName}`} elevation={20} >
+            <Card key={`SRC${metric}`} elevation={20} >
                 <CardActionArea>
                 <CardContent>
-                    <Grid container spacing={6} rowSpacing={0.1} >
-                        {/* <Grid item xs={12} >
-                            <h3><strong>Neko</strong></h3>
-                        </Grid> */}
-                        <Grid item xs={12}>
-                            <h1>{CatName}</h1>
-                        </Grid>
+                    <Grid container spacing={6} rowSpacing={0.1} >                      
                         <Grid item xs={12} justifyContent="space-between">
-                            <img src={CatImage} alt={CatName} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h3>{CatPersonality}</h3>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h3>{CatDescription}</h3>
+                            <iframe src={metric} alt={metric}></iframe>
                         </Grid>
                     </Grid>
                     </CardContent>
