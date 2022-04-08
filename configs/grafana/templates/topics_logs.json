@@ -60,7 +60,22 @@
   "id": null,
   "iteration": 1540331963544,
   "links": [],
-  "panels": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "panels": [],
+      "repeat": "topic",
+      "title": "$topic",
+      "type": "row"
+    }
+  ],
   "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
