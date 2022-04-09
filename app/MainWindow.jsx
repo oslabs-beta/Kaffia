@@ -12,7 +12,7 @@ class MainWindow extends BrowserWindow {
       },
       height: 800,
       minHeight: 500,
-      width: 1000,
+      width: 1100,
       minWidth: 800,
       frame: true,
       autoHideMenuBar: false,

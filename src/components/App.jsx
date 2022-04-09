@@ -39,15 +39,7 @@ class App extends Component {
         {this.state.showSidebar && <Sidebar />}
         <main style={{ marginLeft: '250px' }}>
           <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                <SplashPage toggleSidebar={this.toggleSidebar.bind(this)} />
-              }
-            ></Route>
-
-            <Route exact path="/overview" element={<Overview />} />
+            <Route exact path="/" element={<Overview />} />
             <Route exact path="/cluster" element={<Cluster />} />
             <Route
               exact

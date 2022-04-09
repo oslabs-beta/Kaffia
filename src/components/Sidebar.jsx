@@ -19,12 +19,6 @@ export default function Sidebar() {
           <ListItemIcon>
             <Home />
           </ListItemIcon>
-          <ListItemText primary="splash DEV ONLY" />
-        </MenuItem>
-        <MenuItem component={Link} to="/overview">
-          <ListItemIcon>
-            <Home />
-          </ListItemIcon>
           <ListItemText primary="Overview" />
         </MenuItem>
         <Divider />
