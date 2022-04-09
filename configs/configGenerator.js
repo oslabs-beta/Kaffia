@@ -196,6 +196,8 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
 
 module.exports = (brokerCount, metrics) => {
   // run all three config methods each time user submits form with preferences
+  console.log('metrics');
+  console.log(metrics);
   promConfigGenerator(brokerCount);
   jvmGrafanaConfigGenerator(brokerCount, metrics);
   dockerConfigGenerator(brokerCount);
@@ -214,7 +216,6 @@ const options = {
     'request_total_time',
     'idle_percent',
     'request_rate',
-    'queue_size',
     'queue_size',
     'queue_time',
     'time_placeholder',
