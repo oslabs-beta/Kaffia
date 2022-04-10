@@ -15,7 +15,6 @@ function Brokers() {
     'availableVirtualMemory': "http://localhost:3000/d-solo/AdG9A1xmk/kafka-brokers-jvm-and-os?orgId=1&refresh=5s&from=1649375939533&to=1649379539533&panelId=14" 
   }
 
-
   return (
     <>
       <h1>Brokers</h1>
