@@ -5,7 +5,7 @@ import MetricCard from './MetricCard';
 import Grid from '@mui/material/Grid';
 
 function Brokers() {
-  const panels = {
+  const brokersJVMAndOS = {
     'jvmMemUsedNonheap': "http://localhost:3000/d-solo/AdG9A1xmk/kafka-brokers-jvm-and-os?orgId=1&refresh=5s&from=1649375552985&to=1649379152985&panelId=8",
     'jvmMemUsedHeap': "http://localhost:3000/d-solo/AdG9A1xmk/kafka-brokers-jvm-and-os?orgId=1&refresh=5s&from=1649375653777&to=1649379253777&panelId=6",
     'cpu': "http://localhost:3000/d-solo/AdG9A1xmk/kafka-brokers-jvm-and-os?orgId=1&refresh=5s&from=1649375705161&to=1649379305161&panelId=4",
@@ -15,33 +15,17 @@ function Brokers() {
     'availableVirtualMemory': "http://localhost:3000/d-solo/AdG9A1xmk/kafka-brokers-jvm-and-os?orgId=1&refresh=5s&from=1649375939533&to=1649379539533&panelId=14" 
   }
 
+
   return (
     <>
       <h1>Brokers</h1>
-      {/* <Grid container spacing={10} rowSpacing={9} columnSpacing={3}>
-        <Grid item xs={6}>
-          <Card elevation={20}>
-            <CardContent>
-              <iframe src={panels['jvmMemUsedHeap']} width="100%" height="100%" frameborder="0" loading="lazy"></iframe>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card elevation={20}>
-            <CardContent>
-              <iframe src={panels['jvmMemUsedHeap']} width="100%" height="100%" frameborder="0" loading="lazy"></iframe>
-            </CardContent>
-          </Card>
-        </Grid> */}
       <Grid container spacing={10} rowSpacing={9} columnSpacing={3}>
-
-        {Object.values(panels).map((metricURL, i) => (
+        {Object.values(brokersJVMAndOS).map((metricURL, i) => (
           <Grid item xs={6} key={`${metricURL}+${i}`}>
             <MetricCard metricURL={metricURL} key={metricURL}/>
           </Grid>
             ))}
         </Grid> 
-        {/* </Grid> */}
     </>
   );
 
