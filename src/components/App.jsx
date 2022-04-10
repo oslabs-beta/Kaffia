@@ -12,31 +12,24 @@ import Overview from './Overview';
 import Performance from './Performance';
 import Settings from './Settings';
 import Sidebar from './Sidebar';
-import SplashPage from './SplashPage';
+import { ipcRenderer } from 'electron';
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      showSidebar: true,
-    };
+    this.state = {};
   }
-
-  toggleSidebar() {
-    this.setState({
-      showSidebar: true,
+  componentDidMount() {
+    ipcRenderer.send('app:rendered');
+    ipcRenderer.on('preferences:send', (event, preferences) => {
+      this.setState(preferences);
     });
   }
 
-  componentDidUpdate() {
-    console.log('hi');
-  }
-
   render() {
-    console.log(window.location.pathname);
     return (
       <HashRouter>
-        {this.state.showSidebar && <Sidebar />}
+        <Sidebar />
         <main style={{ marginLeft: '250px' }}>
           <Routes>
             <Route exact path="/" element={<Overview />} />
