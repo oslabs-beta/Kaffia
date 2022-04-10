@@ -12,11 +12,12 @@ class LaunchWindow extends BrowserWindow {
       },
       height: 700,
       width: 500,
-      frame: false,
+      frame: true,
       autoHideMenuBar: false,
       resizable: process.env.NODE_ENV === 'development',
       show: true,
     });
+    this.on('closed', () => app.quit());
     this.loadURL(url);
   }
 }

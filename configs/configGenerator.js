@@ -196,8 +196,6 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
 
 module.exports = (brokerCount, metrics) => {
   // run all three config methods each time user submits form with preferences
-  console.log('metrics');
-  console.log(metrics);
   promConfigGenerator(brokerCount);
   jvmGrafanaConfigGenerator(brokerCount, metrics);
   dockerConfigGenerator(brokerCount);

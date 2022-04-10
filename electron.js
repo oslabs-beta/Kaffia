@@ -58,14 +58,13 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
   const { brokers, metrics } = userPreferences;
   configGenerator(brokers, metrics);
   if (brokers === 1) {
-    dockerExec('./configs/docker/docker_single_node.yml');
-  } else dockerExec('./configs/docker/docker_multiple_nodes.yml');
+    dockerExec('./configs/docker/docker_single_node.yml up -d');
+  } else dockerExec('./configs/docker/docker_multiple_nodes.yml up -d');
 
   // close launch window and show main window
-  launchWindow.close();
+  launchWindow.hide();
   mainWindow = new MainWindow(`file://${__dirname}/src/index.html`);
   mainWindow.show();
-  mainWindow.webContents.send('preferences:submit', userPreferences);
 
   // create popup window that is opened / closed when user clicks on taskbar icon
   popupWindow = new PopupWindow(`file://${__dirname}/src/popup.html`);
@@ -76,13 +75,23 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
 });
 
 ipcMain.on('app:rendered', () => {
-  console.log(preferences);
   mainWindow.webContents.send('preferences:send', preferences);
 });
 
+ipcMain.on('app:quit', () => {
+  app.quit();
+});
+
+ipcMain.on('cluster:shutdown', () => {
+  if (preferences.brokers === 1) {
+    dockerExec('./configs/docker/docker_single_node.yml down');
+  } else dockerExec('./configs/docker/docker_multiple_nodes.yml down');
+  mainWindow.hide();
+  launchWindow = new LaunchWindow(`file://${__dirname}/src/launch.html`);
+});
+
 function dockerExec(path) {
-  const dockerCommand =
-    'docker-compose -p kaffia-cluster -f ' + path + ' up -d';
+  const dockerCommand = 'docker-compose -p kaffia-cluster -f ' + path;
 
   exec(dockerCommand, (err, stdout, stderr) => {
     if (err) {
