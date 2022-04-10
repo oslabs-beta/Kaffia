@@ -57,6 +57,10 @@ export default function Launch() {
     }
   };
 
+  const handleQuit = () => {
+    ipcRenderer.send('app:quit');
+  };
+
   return (
     <center>
       <div id="launch-header">
@@ -88,13 +92,13 @@ export default function Launch() {
         >
           <FormLabel>Hard Disk Usage</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="global_topics_size" />}
                 label="Global topics size"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="log_size_per_broker" />}
                 label="Log size per broker"
@@ -109,7 +113,7 @@ export default function Launch() {
         >
           <FormLabel>Java Virtual Machine</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="memory_usage" />}
                 label="Memory usage"
@@ -123,7 +127,7 @@ export default function Launch() {
                 label="CPU usage"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="open_file_descriptors" />}
                 label="Open file descriptors"
@@ -142,7 +146,7 @@ export default function Launch() {
         >
           <FormLabel>Broker Performance</FormLabel>{' '}
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="request_total_time" />}
                 label="Total request time"
@@ -156,7 +160,7 @@ export default function Launch() {
                 label="Request rate"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="queue_size" />}
                 label="Queue size"
@@ -179,13 +183,13 @@ export default function Launch() {
         >
           <FormLabel>Zookeeper</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="zookeeper_metrics" />}
                 label="Zookeeper metrics"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}></Grid>
+            <Grid display="flex" direction="column" xs={6}></Grid>
           </Grid>
         </FormGroup>
         <FormGroup
@@ -195,7 +199,7 @@ export default function Launch() {
         >
           <FormLabel>Cluster Health</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="core_healthcheck" />}
                 label="Core health stats"
@@ -205,7 +209,7 @@ export default function Launch() {
                 label="Throughput I/O"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="isr_count_change" />}
                 label="In-sync-replica issues"
@@ -224,7 +228,7 @@ export default function Launch() {
         >
           <FormLabel>Cluster Replication</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="replication_io" />}
                 label="Replication I/O"
@@ -234,7 +238,7 @@ export default function Launch() {
                 label="Replication lag"
               />
             </Grid>
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="replica_fetcher" />}
                 label="Replica fetchers"
@@ -249,7 +253,7 @@ export default function Launch() {
         >
           <FormLabel>Logs</FormLabel>
           <Grid container direction="row">
-            <Grid item display="flex" direction="column" xs={6}>
+            <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
                 control={<Checkbox name="log_info" />}
                 label="Key log info"

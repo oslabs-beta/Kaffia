@@ -1,3 +1,16 @@
+body {
+  overflow: overlay;
+}
+body::-webkit-scrollbar {
+  width: 0.7em;
+}
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #329d9c;
+}
+
 .codeblock {
   display: flex;
   flex-direction: column;
