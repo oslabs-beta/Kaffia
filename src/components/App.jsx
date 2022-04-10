@@ -12,7 +12,6 @@ import Overview from './Overview';
 import Performance from './Performance';
 import Settings from './Settings';
 import Sidebar from './Sidebar';
-import SplashPage from './SplashPage';
 
 class App extends Component {
   constructor() {
@@ -28,12 +27,7 @@ class App extends Component {
     });
   }
 
-  componentDidUpdate() {
-    console.log('hi');
-  }
-
   render() {
-    console.log(window.location.pathname);
     return (
       <HashRouter>
         {this.state.showSidebar && <Sidebar />}

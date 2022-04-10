@@ -29,6 +29,7 @@
     "@fontsource/roboto": "^4.5.5",
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.2",
+    "@mui/styles": "^5.6.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-import": "^1.13.3",
     "concurrently": "^7.0.0",

@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: rgb(32, 32, 87);
   // background-color: #565656;
-  border-radius: 7px; 
+  border-radius: 7px;
 }
 
 .copyButton {
@@ -20,9 +20,23 @@
   color: blue;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 .code {
   margin: 20px;
+}
+
+#launch-header {
+  height: 70px;
+  background-color: blue;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+}
+
+#launch-header > img {
+  height: 70px;
 }

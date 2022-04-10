@@ -9,12 +9,24 @@ import {
   MenuItem,
   Collapse,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { Equalizer, Home, Settings, TrendingUp } from '@mui/icons-material';
 
+const classes = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+  paper: {
+    background: 'yellow',
+  },
+});
 export default function Sidebar() {
   return (
-    <Drawer variant="permanent">
-      <List>
+    <Drawer classes={{ paper: classes.paper }} variant="permanent">
+      <List sx={{ color: 'primary.main' }}>
         <MenuItem component={Link} to="/">
           <ListItemIcon>
             <Home />
