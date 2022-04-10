@@ -12,6 +12,7 @@ let mainWindow;
 let launchWindow;
 let tray;
 let popupWindow;
+let preferences;
 
 app.on('ready', () => {
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
@@ -53,6 +54,7 @@ if (process.env.NODE_ENV === 'development') {
 
 ipcMain.on('preferences:submit', (_, userPreferences) => {
   // generate Prometheus, Docker, Grafana, etc. config files based on user input
+  preferences = userPreferences;
   const { brokers, metrics } = userPreferences;
   configGenerator(brokers, metrics);
   if (brokers === 1) {
@@ -62,11 +64,8 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
   // close launch window and show main window
   launchWindow.close();
   mainWindow = new MainWindow(`file://${__dirname}/src/index.html`);
-  mainWindow.on('show', () => {
-    setTimeout(() => {
-      mainWindow.focus();
-    }, 500);
-  });
+  mainWindow.show();
+  mainWindow.webContents.send('preferences:submit', userPreferences);
 
   // create popup window that is opened / closed when user clicks on taskbar icon
   popupWindow = new PopupWindow(`file://${__dirname}/src/popup.html`);
@@ -74,6 +73,11 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
     process.platform === 'darwin' ? 'icon-mac.png' : 'icon-windows.png';
   const iconPath = path.join(__dirname, `/src/assets/${iconName}`);
   tray = new MetricTray(iconPath, popupWindow);
+});
+
+ipcMain.on('app:rendered', () => {
+  console.log(preferences);
+  mainWindow.webContents.send('preferences:send', preferences);
 });
 
 function dockerExec(path) {
