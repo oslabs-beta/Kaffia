@@ -194,40 +194,39 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
   }
 };
 
-module.exports = (brokerCount) => {
+module.exports = (brokerCount, metrics) => {
   // run all three config methods each time user submits form with preferences
+  console.log('metrics');
+  console.log(metrics);
   promConfigGenerator(brokerCount);
-  jvmGrafanaConfigGenerator(brokerCount, {
-    broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
-    broker_jvm_os: [
-      'memory_usage',
-      'garbage_collection',
-      'cpu_usage',
-      'open_file_descriptors',
-      'available_memory',
-    ],
-    broker_performance: [
-      'request_total_time',
-      'idle_percent',
-      'request_rate',
-      'queue_size',
-      'queue_size',
-      'queue_time',
-      'time_placeholder',
-    ],
-    broker_zookeeper: ['zookeeper_metrics'],
-    cluster_healthcheck: [
-      'core_healthcheck',
-      'throughput_io',
-      'isr_count_change',
-      'leaders_partitions',
-    ],
-    cluster_replication: [
-      'replication_io',
-      'replication_lag',
-      'replica_fetcher',
-    ],
-    topics_logs: ['log_info'],
-  });
+  jvmGrafanaConfigGenerator(brokerCount, metrics);
   dockerConfigGenerator(brokerCount);
+};
+
+const options = {
+  broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
+  broker_jvm_os: [
+    'memory_usage',
+    'garbage_collection',
+    'cpu_usage',
+    'open_file_descriptors',
+    'available_memory',
+  ],
+  broker_performance: [
+    'request_total_time',
+    'idle_percent',
+    'request_rate',
+    'queue_size',
+    'queue_time',
+    'time_placeholder',
+  ],
+  broker_zookeeper: ['zookeeper_metrics'],
+  cluster_healthcheck: [
+    'core_healthcheck',
+    'throughput_io',
+    'isr_count_change',
+    'leaders_partitions',
+  ],
+  cluster_replication: ['replication_io', 'replication_lag', 'replica_fetcher'],
+  topics_logs: ['log_info'],
 };
