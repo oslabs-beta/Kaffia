@@ -11,6 +11,7 @@ import {
   Select,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
+import { cluster_replication } from '../../configs/grafana/templates/panels_template';
 
 export default function Launch() {
   const [brokers, setBrokers] = useState(1);
@@ -30,6 +31,17 @@ export default function Launch() {
       if (!metrics[dashboard].length) delete metrics[dashboard];
     }
     ipcRenderer.send('preferences:submit', { brokers, metrics });
+    const loadingScreen = document.createElement('div');
+    loadingScreen.setAttribute('id', 'loading');
+    const loadingText = document.createElement('h2');
+    loadingText.innerText = 'Launching Cluster';
+    const loadingAnimation = document.createElement('img');
+    loadingAnimation.setAttribute(
+      'src',
+      'https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif'
+    );
+    loadingScreen.append(loadingAnimation, loadingText);
+    document.body.append(loadingScreen);
   };
 
   const handleBrokersChange = (event) => {
