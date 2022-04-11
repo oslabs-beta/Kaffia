@@ -15,7 +15,6 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   background-color: rgb(32, 32, 87);
-  // background-color: #565656;
   border-radius: 7px;
 }
 
@@ -72,4 +71,8 @@ body::-webkit-scrollbar-thumb {
   img {
     height: 80px;
   }
+}
+
+#sidebar > * {
+  background-color: #205072;
 }

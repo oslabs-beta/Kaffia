@@ -75,11 +75,13 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
 
   function checkForCluster() {
     exec('docker logs grafana', (err, stdout, stderr) => {
-      if (!stderr.includes('Error: No such container: grafana')) {
-        enterApp();
-      } else {
-        setTimeout(checkForCluster, 1000);
+      if (stderr.includes('Cannot connect to the Docker daemon')) {
+        return launchWindow.webContents.send('docker:closed');
       }
+      if (!stderr.includes('Error: No such container: grafana')) {
+        return enterApp();
+      }
+      setTimeout(checkForCluster, 1000);
     });
   }
 
@@ -119,9 +121,6 @@ function dockerExec(path) {
     if (stderr) {
       console.log(stderr);
     }
-    if (stdout.includes('Created')) {
-      console.log('hello');
-    }
-    // console.log(stdout);
+    console.log(stdout);
   });
 }

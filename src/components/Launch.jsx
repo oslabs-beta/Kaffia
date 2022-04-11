@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Button,
   FormControlLabel,
@@ -11,7 +12,6 @@ import {
   Select,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
-import { cluster_replication } from '../../configs/grafana/templates/panels_template';
 
 export default function Launch() {
   const [brokers, setBrokers] = useState(1);
@@ -23,6 +23,24 @@ export default function Launch() {
     cluster_healthcheck: [],
     cluster_replication: [],
     topics_logs: [],
+  });
+
+  useEffect(() => {
+    ipcRenderer.on('docker:closed', () => {
+      ReactDOM.render(
+        <>
+          <h2>Is Docker running?</h2>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => document.getElementById('loading').remove()}
+          >
+            Try Again
+          </Button>
+        </>,
+        document.getElementById('loading')
+      );
+    });
   });
 
   const handleSubmit = (event) => {

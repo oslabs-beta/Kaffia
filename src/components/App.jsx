@@ -34,7 +34,13 @@ class App extends Component {
     return (
       <HashRouter>
         <Sidebar />
-        <main style={{ marginLeft: '250px' }}>
+        <main
+          style={{
+            marginLeft: '250px',
+            marginTop: '15px',
+            marginRight: '30px',
+          }}
+        >
           <Routes>
             <Route exact path="/" element={<Overview />} />
             <Route exact path="/cluster" element={<Cluster />} />
