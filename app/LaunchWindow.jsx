@@ -2,7 +2,7 @@ const electron = require('electron');
 
 const { BrowserWindow, app } = electron;
 
-class MainWindow extends BrowserWindow {
+class LaunchWindow extends BrowserWindow {
   constructor(url) {
     super({
       webPreferences: {
@@ -10,11 +10,11 @@ class MainWindow extends BrowserWindow {
         contextIsolation: false,
         backgroundThrottling: false,
       },
-      height: 300,
+      height: 700,
       width: 500,
       frame: true,
       autoHideMenuBar: false,
-      resizable: false,
+      resizable: process.env.NODE_ENV === 'development',
       show: true,
     });
     this.on('closed', () => app.quit());
@@ -22,4 +22,4 @@ class MainWindow extends BrowserWindow {
   }
 }
 
-module.exports = MainWindow;
+module.exports = LaunchWindow;

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Button,
   Divider,
   Drawer,
   List,
@@ -10,18 +11,28 @@ import {
   Collapse,
 } from '@mui/material';
 import { Equalizer, Home, Settings, TrendingUp } from '@mui/icons-material';
+import { ipcRenderer } from 'electron';
 
 export default function Sidebar() {
+  const handleShutdown = () => {
+    ipcRenderer.send('cluster:shutdown');
+  };
+
   return (
-    <Drawer variant="permanent">
+    <Drawer id="sidebar" variant="permanent">
+      <center>
+        <img
+          id="main-logo"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/100px-Wikimedia-logo.png"
+        ></img>
+        <h2>Kaffia</h2>
+        <Button sx={{ mb: 3 }} onClick={handleShutdown} variant="contained">
+          Stop Cluster
+        </Button>
+      </center>
+      <Divider />
       <List>
         <MenuItem component={Link} to="/">
-          <ListItemIcon>
-            <Home />
-          </ListItemIcon>
-          <ListItemText primary="splash DEV ONLY" />
-        </MenuItem>
-        <MenuItem component={Link} to="/overview">
           <ListItemIcon>
             <Home />
           </ListItemIcon>
