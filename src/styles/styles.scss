@@ -45,7 +45,7 @@ body::-webkit-scrollbar-thumb {
   height: 70px;
   background-color: blue;
   position: sticky;
-  z-index: 100;
+  z-index: 2;
   top: 0;
   width: 100%;
 }
@@ -57,4 +57,19 @@ body::-webkit-scrollbar-thumb {
 #main-logo {
   height: 100px;
   width: 100px;
+}
+
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #205072a0;
+  z-index: 3;
+  text-align: center;
+  padding-top: 35%;
+  img {
+    height: 80px;
+  }
 }
