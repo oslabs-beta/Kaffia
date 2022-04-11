@@ -22,6 +22,7 @@ services:
       - '9090:9090'
     volumes:
       - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
+      - ../prometheus/alert_rules.yml:/../prometheus/alert_rules.yml
     command: '--config.file=/../prometheus/prometheus.yml'
     container_name: prometheus
   zk1:
@@ -34,3 +35,16 @@ services:
     ports:
       - 2181:2181
     container_name: zookeeper1
+
+  alertmanager:
+      image: prom/alertmanager:v0.23.0
+      restart: unless-stopped
+      ports:
+        - "9093:9093"
+      volumes:
+        - "../alertmanager:/config"
+        - alertmanager-data:/data
+      command: --config.file=/config/alertmanager.yml --log.level=debug
+
+volumes:
+  alertmanager-data:  
