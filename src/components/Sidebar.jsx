@@ -60,11 +60,11 @@ export default function Sidebar() {
         </MenuItem>
         <Collapse in={true} component="li" timeout="auto">
           <List disablePadding sx={{ ml: 6 }}>
-            <MenuItem component={Link} to="/brokers">
-              <ListItemText primary="Brokers" />
+            <MenuItem component={Link} to="/brokerHardDiskUsage">
+              <ListItemText primary="Broker Hard Disk Usage" />
             </MenuItem>
-            <MenuItem component={Link} to="/consumers">
-              <ListItemText primary="Consumers" />
+            <MenuItem component={Link} to="/brokerJVMOS">
+              <ListItemText primary="Broker JVM and OS" />
             </MenuItem>
             <MenuItem component={Link} to="/producers">
               <ListItemText primary="Producers" />
