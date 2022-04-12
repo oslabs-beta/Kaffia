@@ -3,7 +3,7 @@ groups:
   - name: Broker_Hard_Disk_Usage
     rules:
       - alert: Global_Topics_Size_With_Replication
-        expr: sum(kafka_log_size{env="$env"}) by (topic) < 1  # need to change the alert condition
+        expr:  sum(kafka_log_size{env="$env"}) by (topic) < 1  # need to change the alert condition
         for: 1m   # telling Prometheus to send alert only when expression holds true for 1 minute
         labels:
           severity: high
@@ -11,7 +11,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Global_Topics_Size_Without_Replication
-        expr: sum(sum(kafka_log_size{env="$env"}) by (topic, partition) / sum(kafka_cluster_partition_replicascount{env="$env"}) by(partition, topic)) by (topic) < 1
+        expr: sum(sum(kafka_log_size{env="$env"}) by (topic, partition) / sum(kafka_cluster_partition_replicascount{env="$env"}) by(partition, topic)) by (topic) < 1 
         for: 1m
         labels:
           severity: high
@@ -19,7 +19,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Log_Size_Per_Broker_With_Replicas
-        expr: sum(kafka_log_size{env="$env"}) by (instance) < 1
+        expr: sum(kafka_log_size{env="$env"}) by (instance) < 1 
         for: 1m 
         labels:
           severity: high
@@ -38,7 +38,7 @@ groups:
   - name: Broker_Jvm_Os
     rules:
       - alert: JVM_Memory_Used_Non-Heap
-        expr:  kafka_jvm_non_heap_usage{env="$env", type="used"} < 1 
+        expr:  kafka_jvm_non_heap_usage{env="$env", type="used"} < 1000
         for: 1m   
         labels:
           severity: high
@@ -46,7 +46,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: JVM_Memory_Used_Heap
-        expr:  kafka_jvm_heap_usage{env="$env", type="used"} < 1
+        expr:  kafka_jvm_heap_usage{env="$env", type="used"} < 1000
         for: 1m   
         labels:
           severity: high
@@ -62,7 +62,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: CPU
-        expr: kafka_jvm_os_systemcpuload{env="$env"} < 1
+        expr: kafka_jvm_os_systemcpuload{env="$env"} > 1 #it stays under 1 
         for: 1m   
         labels:
           severity: high
@@ -78,7 +78,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Free_Physical_Memory
-        expr: kafka_jvm_os_freephysicalmemorysize{env="$env"} < 1
+        expr: kafka_jvm_os_freephysicalmemorysize{env="$env"} < 10000
         for: 1m   
         labels:
           severity: high
@@ -86,7 +86,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Available_Virtual_Memory
-        expr: kafka_jvm_os_committedvirtualmemorysize{env="$env"} < 1
+        expr: kafka_jvm_os_committedvirtualmemorysize{env="$env"} < 10000
         for: 1m   
         labels:
           severity: high
@@ -121,7 +121,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Network_Socket_Avg_Idle_Percent
-        expr: kafka_network_socket_server_processor_avg_idle_percent{instance=~"$instance",env="$env"} < 1
+        expr: kafka_network_socket_server_processor_avg_idle_percent{instance=~"$instance",env="$env"} > 1 #should always be under 1 
         for: 1m   
         labels:
           severity: high
@@ -164,7 +164,7 @@ groups:
   - name: broker_zookeeper
     rules:
       - alert: Zookeeper_Sync_Connects_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeepersyncconnectspersec{aggregate="OneMinute", env="$env"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeepersyncconnectspersec{aggregate="OneMinute", env="$env"} <= 0 
         for: 1m   
         labels:
           severity: high
@@ -172,7 +172,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Zookeeper_Disconnects_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeeperdisconnectspersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeeperdisconnectspersec{env="$env", aggregate="OneMinute"} >= 1 #must be 0 all the time
         for: 1m
         labels:
           severity: high
@@ -180,7 +180,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Zookeeper_Read_Only_Connects_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeeperreadonlyconnectspersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeeperreadonlyconnectspersec{env="$env", aggregate="OneMinute"} >= 1 #must be 0 all the time
         for: 1m
         labels:
           severity: high
@@ -188,7 +188,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Zookeeper_Expires_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeeperexpirespersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeeperexpirespersec{env="$env", aggregate="OneMinute"} >= 1 #must be 0 all the time
         for: 1m
         labels:
           severity: high
@@ -196,7 +196,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Zookeeper_SASL_Authentications_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeeperauthfailurespersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeeperauthfailurespersec{env="$env", aggregate="OneMinute"} >= 1 #must be 0 all the time
         for: 1m
         labels:
           severity: high
@@ -204,7 +204,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Zookeeper_Auth_Failures_Per_Sec
-        expr: kafka_zookeeper_session_expire_listener_zookeeperauthfailurespersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_zookeeper_session_expire_listener_zookeeperauthfailurespersec{env="$env", aggregate="OneMinute"} >= 1 #must be 0 all the time
         for: 1m
         labels:
           severity: high
@@ -215,7 +215,7 @@ groups:
   - name: cluster_healthcheck
     rules:
       - alert: Active_Controller
-        expr: sum(kafka_controller_activecontrollercount{env="$env"}) < 1
+        expr: sum(kafka_controller_activecontrollercount{env="$env"}) < 1 #alert if there's any inactive controller counts.
         for: 1m   
         labels:
           severity: high
@@ -223,7 +223,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Offline_Partitions_Count
-        expr: sum(kafka_controller_offlinepartitionscount{env="$env"}) < 1
+        expr: sum(kafka_controller_offlinepartitionscount{env="$env"}) > 0 #alert if there's any offline partitions 
         for: 1m
         labels:
           severity: high
@@ -231,7 +231,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Under_Replicated_Partitions
-        expr: sum(kafka_server_replica_manager_underreplicatedpartitions{env="$env"}) < 1
+        expr: sum(kafka_server_replica_manager_underreplicatedpartitions{env="$env"}) > 0  #alert if there's any offline partitions
         for: 1m
         labels:
           severity: high
@@ -239,7 +239,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Partitions_Under_Min_ISR
-        expr: sum(kafka_cluster_partition_underminisr{env="$env"}) < 1
+        expr: sum(kafka_cluster_partition_underminisr{env="$env"}) < 1 # the minimum number of in-sync replicas that must be available for the producer to successfully send records to a partition must be at least 1 
         for: 1m
         labels:
           severity: high
@@ -247,15 +247,15 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Preferred_Replica_Imbalance
-        expr: sum(kafka_controller_preferredreplicaimbalancecount{env="$env"}) < 1
+        expr: sum(kafka_controller_preferredreplicaimbalancecount{env="$env"}) > 1 #imbalance count should be lower
         for: 1m
         labels:
           severity: high
         annotations:
           summary: 'Alert with high severity.'
 
-      - alert: Brokers_Running_Greater_than_and_equal_to_three # Brokers_Running(>=3)
-        expr: count((kafka_server_brokerstate{env="$env"}) == 3 or (kafka_server_brokerstate{env="$env"}) == 4) < 1
+      - alert: Brokers_Running_Greater_than_and_equal_to_three # Brokers_Running(>=3) 
+        expr: count((kafka_server_brokerstate{env="$env"}) == 3 or (kafka_server_brokerstate{env="$env"}) == 4) < 3 
         for: 1m
         labels:
           severity: high
@@ -263,7 +263,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Produce_Req_per_Sec
-        expr:  sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"Produce",env="$env"}) < 1
+        expr:  sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"Produce",env="$env"}) > 1 
         for: 1m
         labels:
           severity: high
@@ -271,7 +271,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Fetch_Consumer_Req_per_Sec
-        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"FetchConsumer",env="$env"}) < 1
+        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"FetchConsumer",env="$env"}) > 1
         for: 1m
         labels:
           severity: high
@@ -279,7 +279,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Metadata_Req_per_Sec
-        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"Metadata",env="$env"}) < 1
+        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"Metadata",env="$env"}) > 1
         for: 1m
         labels:
           severity: high
@@ -287,7 +287,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Offset_Commit_Req_per_Sec
-        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"OffsetCommit",env="$env"}) < 1
+        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"OffsetCommit",env="$env"}) > 1
         for: 1m
         labels:
           severity: high
@@ -295,7 +295,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Offset_Commit_Req_per_Sec
-        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"OffsetCommit",env="$env"}) < 1
+        expr: sum(kafka_network_request_per_sec{aggregate=~"OneMinuteRate",request=~"OffsetCommit",env="$env"}) > 1
         for: 1m
         labels:
           severity: high
@@ -303,7 +303,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Messages_In_per_Topics
-        expr: sum(kafka_server_broker_topic_metrics_messagesinpersec_rate{topic!=""}) by(topic) < 1
+        expr: sum(kafka_server_broker_topic_metrics_messagesinpersec_rate{topic!=""}) by(topic) > 1
         for: 1m
         labels:
           severity: high
@@ -311,7 +311,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Messages_In_per_sec_less_than_one 
-        expr: sum(kafka_server_broker_topic_metrics_messagesinpersec_rate{topic=""}) by (broker)
+        expr: sum(kafka_server_broker_topic_metrics_messagesinpersec_rate{topic=""}) by (broker) > 1
         for: 1m
         labels:
           severity: high
@@ -319,7 +319,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Bytes_In_per_Sec
-        expr: sum(kafka_server_broker_topic_metrics_bytesinpersec_rate{topic=""}) by (broker) < 1
+        expr: sum(kafka_server_broker_topic_metrics_bytesinpersec_rate{topic=""}) by (broker) > 1
         for: 1m
         labels:
           severity: high
@@ -327,7 +327,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Bytes_Out_per_Sec
-        expr: sum(kafka_server_broker_topic_metrics_bytesoutpersec_rate{topic=""}) by (broker) < 1
+        expr: sum(kafka_server_broker_topic_metrics_bytesoutpersec_rate{topic=""}) by (broker) > 1
         for: 1m   
         labels:
           severity: high
@@ -335,7 +335,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: In-Sync_Replica_Expands_Rate
-        expr: kafka_server_replica_manager_isrexpandspersec{aggregate="OneMinute",env="$env"} < 1
+        expr: kafka_server_replica_manager_isrexpandspersec{aggregate="OneMinute",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -343,7 +343,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: In-Sync_Replica_Shrinks_Rate
-        expr: kafka_server_replica_manager_isrshrinkspersec{aggregate="OneMinute",env="$env"} < 1
+        expr: kafka_server_replica_manager_isrshrinkspersec{aggregate="OneMinute",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -351,7 +351,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Leader_Election_Rate_ms_1MinuteRate_Mean
-        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"Mean",env="$env"} < 1
+        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"Mean",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -359,7 +359,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Leader_Election_Rate_ms_1MinuteRate_75th_Percentile
-        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"75thPercentile",env="$env"} < 1 
+        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"75thPercentile",env="$env"} > 1 
         for: 1m
         labels:
           severity: high
@@ -367,7 +367,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Leader_Election_Rate_ms_1MinuteRate_99th_Percentile
-        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"99thPercentile",env="$env"} < 1
+        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate=~"99thPercentile",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -375,7 +375,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Leader_Election_Rate_ms_1MinuteRate_OneMinuteRate
-        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate="OneMinuteRate",  env="$env"} < 1 
+        expr: kafka_controller_stats_leaderelectionrateandtimems{aggregate="OneMinuteRate",  env="$env"} > 1 
         for: 1m
         labels:
           severity: high
@@ -383,7 +383,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Unclean_Leader_Election_Rate_less_than_0
-        expr: kafka_controller_stats_uncleanleaderelectionspersec{aggregate="OneMinuteRate",env="$env"} < 1 
+        expr: kafka_controller_stats_uncleanleaderelectionspersec{aggregate="OneMinuteRate",env="$env"} >= 0 
         for: 1m
         labels:
           severity: high
@@ -391,7 +391,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Leader_Count_per_Broker
-        expr:  kafka_server_replica_manager_leadercount{env="$env"} < 1 
+        expr:  kafka_server_replica_manager_leadercount{env="$env"} < 1 #there must be at least one leader per broker.
         for: 1m
         labels:
           severity: high
@@ -399,7 +399,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Number_of_Partitions_per_Broker
-        expr:  kafka_server_replica_manager_partitioncount{env="$env"} < 1
+        expr:  kafka_server_replica_manager_partitioncount{env="$env"} < 1 #there must be at least one partition per broker.
         for: 1m
         labels:
           severity: high
@@ -410,7 +410,7 @@ groups:
   - name: Cluster_Replication
     rules:
       - alert: Replication_BytesIn_Sec
-        expr: kafka_server_broker_topic_metrics_replicationbytesinpersec_rate{aggregate="OneMinute",env="$env"} < 1
+        expr: kafka_server_broker_topic_metrics_replicationbytesinpersec_rate{aggregate="OneMinute",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -418,7 +418,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Replication_BytesOut_per_Sec
-        expr: kafka_server_broker_topic_metrics_replicationbytesoutpersec_rate{aggregate="OneMinute",env="$env"} < 1
+        expr: kafka_server_broker_topic_metrics_replicationbytesoutpersec_rate{aggregate="OneMinute",env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -426,7 +426,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Replication_Max_Lag_per_Broker
-        expr: kafka_server_replica_fetcher_manager_maxlag_value{env="$env"} < 1
+        expr: kafka_server_replica_fetcher_manager_maxlag_value{env="$env"} > 1
         for: 1m
         labels:
           severity: high
@@ -434,7 +434,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Fetch_Bytes_per_sec_per_Replication_thread
-        expr: kafka_server_fetcher_stats_bytespersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_server_fetcher_stats_bytespersec{env="$env", aggregate="OneMinute"} > 1
         for: 1m
         labels:
           severity: high
@@ -442,7 +442,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Fetch_Requests_per_sec_Per_Replication_thread
-        expr: kafka_server_fetcher_stats_requestspersec{env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_server_fetcher_stats_requestspersec{env="$env", aggregate="OneMinute"} > 1
         for: 1m
         labels:
           severity: high
@@ -452,7 +452,7 @@ groups:
   - name: Total_Log_Size
     rules:
       - alert: Replication_BytesIn_per_Sec
-        expr: sum(kafka_log_size{env="$env", topic="$topic"}) < 1 
+        expr: sum(kafka_log_size{env="$env", topic="$topic"}) < 1000 
         for: 1m   
         labels:
           severity: high
@@ -468,7 +468,7 @@ groups:
           summary: 'Alert with high severity.'    
 
       - alert: Number_of_Partitions_Under_Min_ISR
-        expr: sum(kafka_cluster_partition_underminisr{env="$env", topic="$topic"}) < 1 
+        expr: sum(kafka_cluster_partition_underminisr{env="$env", topic="$topic"}) > 1 
         for: 1m
         labels:
           severity: high
@@ -476,15 +476,15 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Under_Replicated_Partitions
-        expr: sum(kafka_cluster_partition_underreplicated{env="$env", topic="$topic"}) < 1
-        for: 1m
+        expr: sum(kafka_cluster_partition_underreplicated{env="$env", topic="$topic"}) > 1
+        for: 1>
         labels:
           severity: high
         annotations:
           summary: 'Alert with high severity.'
 
       - alert: Number_of_Segment_Files_Per_Broker
-        expr: kafka_log_numlogsegments{topic="$topic", env="$env"} < 1
+        expr: kafka_log_numlogsegments{topic="$topic", env="$env"} > 1 
         for: 1m
         labels:
           severity: high
@@ -492,7 +492,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: Messages_In_Per_Sec_(OneMinuteRate)
-        expr: kafka_server_broker_topic_metrics_messagesinpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_server_broker_topic_metrics_messagesinpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} > 0.00000000001
         for: 1m
         labels:
           severity: high
@@ -500,7 +500,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: BytesInPerSec_OneMinuteRate
-        expr: kafka_server_broker_topic_metrics_bytesinpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_server_broker_topic_metrics_bytesinpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} > 0.000000001
         for: 1m
         labels:
           severity: high
@@ -508,7 +508,7 @@ groups:
           summary: 'Alert with high severity.'
 
       - alert: BytesOutPerSec_OneMinuteRate
-        expr: kafka_server_broker_topic_metrics_bytesoutpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} < 1
+        expr: kafka_server_broker_topic_metrics_bytesoutpersec_rate{topic="$topic", env="$env", aggregate="OneMinute"} > 1
         for: 1m
         labels:
           severity: high
