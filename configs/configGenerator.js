@@ -14,7 +14,33 @@ const jmxMetrics = require('./jmx_exporter/metric_list.js');
  *
  */
 
-const dockerConfigGenerator = (brokerCount) => {
+const dockerConfigGenerator = (brokerCount, email) => {
+  if (brokerCount === 1) {
+    try {
+      const dockerConfig = yaml.load(
+        fs.readFileSync(
+          path.join(__dirname, './docker/docker_single_node_template.yml'),
+          'utf8'
+        )
+      );
+      if (email) {
+        dockerConfig.services.alertManager = {
+          image: 'prom/alertmanager:v0.23.0',
+          restart: 'unless-stopped',
+          ports: ['9096:9096'],
+          volumes: ['../alertmanager:/config', 'alertmanager-data:/data'],
+          command: '--config.file=/config/alertmanager.yml --log.level=debug',
+          depends_on: ['prometheus'],
+        };
+      }
+      return fs.writeFileSync(
+        path.join(__dirname, 'docker/docker_single_node.yml'),
+        yaml.dump(dockerConfig, { noRefs: true })
+      );
+    } catch (e) {
+      return console.log(e);
+    }
+  }
   try {
     // load in the multi-container Docker yaml template
     const dockerConfig = yaml.load(
@@ -85,6 +111,16 @@ const dockerConfigGenerator = (brokerCount) => {
       dockerConfig.services[`kafka${101 + i}`] = kafkaConfig;
     }
 
+    if (email) {
+      dockerConfig.services.alertManager = {
+        image: 'prom/alertmanager:v0.23.0',
+        restart: 'unless-stopped',
+        ports: ['9096:9096'],
+        volumes: ['../alertmanager:/config', 'alertmanager-data:/data'],
+        command: '--config.file=/config/alertmanager.yml --log.level=debug',
+        depends_on: ['prometheus'],
+      };
+    }
     // after adding the required services for each broker, save the completed template
     // to a filepath that will then be used to launch the Docker app
     fs.writeFileSync(
@@ -92,7 +128,7 @@ const dockerConfigGenerator = (brokerCount) => {
       yaml.dump(dockerConfig, { noRefs: true })
     );
   } catch (e) {
-    console.log(e);
+    return console.log(e);
   }
 };
 
@@ -104,7 +140,7 @@ const dockerConfigGenerator = (brokerCount) => {
  *
  */
 
-const promConfigGenerator = (brokerCount) => {
+const promConfigGenerator = (brokerCount, email) => {
   try {
     // read in prometheus.yml template file and add jmx-exporter ports depending on
     // the user's preferred number of Kafka brokers
@@ -121,6 +157,13 @@ const promConfigGenerator = (brokerCount) => {
 
     // add ports to scrape to the yml file and save changes into completed yml file
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
+
+    if (email) {
+      promConfig.alerting.alertmanagers[0].static_configs[0].targets = [
+        'alertmanager:9096',
+      ];
+    }
+
     fs.writeFileSync(
       path.join(__dirname, 'prometheus/prometheus.yml'),
       yaml.dump(promConfig, { noRefs: true })
@@ -204,9 +247,6 @@ const alertConfigGenerator = (email) => {
         'utf8'
       )
     );
-    console.log(alertManager);
-    console.log(alertManager.receivers[0].email_configs[0].to);
-    console.log(email);
     alertManager.receivers[0].email_configs[0].to = email;
     fs.writeFileSync(
       path.join(__dirname, 'alertmanager/alertmanager.yml'),
@@ -219,8 +259,8 @@ const alertConfigGenerator = (email) => {
 
 module.exports = (brokerCount, metrics, email) => {
   // run all three config methods each time user submits form with preferences
-  promConfigGenerator(brokerCount);
+  promConfigGenerator(brokerCount, email);
   jvmGrafanaConfigGenerator(brokerCount, metrics);
   if (email) alertConfigGenerator(email);
-  dockerConfigGenerator(brokerCount);
+  dockerConfigGenerator(brokerCount, email);
 };
