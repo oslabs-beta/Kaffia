@@ -5,6 +5,9 @@ configs/grafana/dashboards/*
 configs/docker/docker_multiple_nodes.yml
 configs/prometheus/prometheus.yml
 configs/jmx_exporter/config_kafka1*
+configs/alertmanager/alertmanager.yml
 
 # experimental configs folder
 configs2
+
+out/

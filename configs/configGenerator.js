@@ -194,37 +194,33 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
   }
 };
 
-module.exports = (brokerCount, metrics) => {
+const alertConfigGenerator = (email) => {
+  try {
+    // read in prometheus.yml template file and add jmx-exporter ports depending on
+    // the user's preferred number of Kafka brokers
+    const alertManager = yaml.load(
+      fs.readFileSync(
+        path.join(__dirname, 'alertmanager/alertmanager_template.yml'),
+        'utf8'
+      )
+    );
+    console.log(alertManager);
+    console.log(alertManager.receivers[0].email_configs[0].to);
+    console.log(email);
+    alertManager.receivers[0].email_configs[0].to = email;
+    fs.writeFileSync(
+      path.join(__dirname, 'alertmanager/alertmanager.yml'),
+      yaml.dump(alertManager, { noRefs: true })
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = (brokerCount, metrics, email) => {
   // run all three config methods each time user submits form with preferences
   promConfigGenerator(brokerCount);
   jvmGrafanaConfigGenerator(brokerCount, metrics);
+  if (email) alertConfigGenerator(email);
   dockerConfigGenerator(brokerCount);
-};
-
-const options = {
-  broker_hard_disk_usage: ['global_topics_size', 'log_size_per_broker'],
-  broker_jvm_os: [
-    'memory_usage',
-    'garbage_collection',
-    'cpu_usage',
-    'open_file_descriptors',
-    'available_memory',
-  ],
-  broker_performance: [
-    'request_total_time',
-    'idle_percent',
-    'request_rate',
-    'queue_size',
-    'queue_time',
-    'time_placeholder',
-  ],
-  broker_zookeeper: ['zookeeper_metrics'],
-  cluster_healthcheck: [
-    'core_healthcheck',
-    'throughput_io',
-    'isr_count_change',
-    'leaders_partitions',
-  ],
-  cluster_replication: ['replication_io', 'replication_lag', 'replica_fetcher'],
-  topics_logs: ['log_info'],
 };
