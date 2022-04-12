@@ -4,9 +4,9 @@ global:
 alerting:
   alertmanagers:
     - static_configs:
-        - targets:  
-          - alertmanager:9093  
-rule_files: 
+        - targets:
+            - null
+rule_files:
   - alert_rules.yml
 scrape_configs:
   - job_name: kafka
