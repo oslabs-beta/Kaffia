@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField // added
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
 
@@ -42,6 +43,7 @@ export default function Launch() {
       );
     });
   });
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -98,7 +100,7 @@ export default function Launch() {
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/100px-Wikimedia-logo.png"></img>
       </div>
       <form style={{ padding: '0px 40px' }} onSubmit={handleSubmit}>
-        <h2>Cluster Broker Count</h2>
+        <h2>Cluster Broker Count</h2> 
         <InputLabel id="demo-simple-select-label">Brokers</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -114,6 +116,7 @@ export default function Launch() {
           <MenuItem value={4}>4</MenuItem>
           <MenuItem value={5}>5</MenuItem>
         </Select>
+
         <h2>Metrics to Track</h2>
         <FormGroup
           sx={{ mb: 4 }}
