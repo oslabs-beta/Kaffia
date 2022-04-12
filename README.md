@@ -1,11 +1,9 @@
 <center>
-  <h2 align="center">Kaffia</h2>
+  <a href="">
+    <img src="./src/assets/github-logo.jpg" alt="Logo" width="300" >
+  </a>
   <h4 align="center">Intuitive, customizable Kafka cluster metrics</h4>
   <a href=""><strong>Product Website »</strong></a>
-  <br></br>
-  <a href="">
-    <img src="./assets/icon.jpeg" alt="Logo" width="100" height="110">
-  </a>
   <br></br>
   <a href="https://github.com/oslabs-beta/kaffia"><img src="https://img.shields.io/badge/license-MIT-blue"/></a>
   <a href="https://github.com/oslabs-beta/kaffia/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/oslabs-beta/kaffia"></a>
@@ -41,7 +39,9 @@ Read on to see some of our core features and learn how you can get Kaffia up and
 
 ### Custom cluster metrics
 
-- ***
+- Monitor
+
+---
 
 ## <a name="getting-started"></a> Getting Started with Kaffia
 

@@ -13,6 +13,7 @@ import {
   TextField,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
+import Logo from '../assets/app-logo.png';
 
 export default function Launch() {
   const [brokers, setBrokers] = useState(1);
@@ -98,8 +99,7 @@ export default function Launch() {
   return (
     <center>
       <div id="launch-header">
-        {/* logo placeholder */}
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/100px-Wikimedia-logo.png"></img>
+        <img src={Logo}></img>
       </div>
       <form style={{ padding: '0px 40px' }} onSubmit={handleSubmit}>
         <h2>Cluster Broker Count</h2> 
@@ -300,7 +300,7 @@ export default function Launch() {
         <FormGroup sx={{ mb: 4 }}>
           <FormControlLabel
             control={<Checkbox name="log_info" />}
-            label="Alert me"
+            label="Email me about key cluster issues"
             onChange={() => setEmailDisabled(!emailDisabled)}
           />
           <TextField
