@@ -5,13 +5,9 @@ const configGenerator = require('./configs/configGenerator.js');
 
 const LaunchWindow = require('./app/LaunchWindow.jsx');
 const MainWindow = require('./app/MainWindow.jsx');
-const PopupWindow = require('./app/PopupWindow.jsx');
-const MetricTray = require('./app/MetricTray.jsx');
 
 let mainWindow;
 let launchWindow;
-let tray;
-let popupWindow;
 let preferences;
 
 app.on('ready', () => {
@@ -86,13 +82,6 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
   }
 
   checkForCluster();
-
-  // // create popup window that is opened / closed when user clicks on taskbar icon
-  // popupWindow = new PopupWindow(`file://${__dirname}/src/popup.html`);
-  // const iconName =
-  //   process.platform === 'darwin' ? 'icon-mac.png' : 'icon-windows.png';
-  // const iconPath = path.join(__dirname, `/src/assets/${iconName}`);
-  // tray = new MetricTray(iconPath, popupWindow);
 });
 
 ipcMain.on('app:rendered', () => {
