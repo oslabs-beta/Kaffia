@@ -62,8 +62,8 @@ function enterApp() {
 ipcMain.on('preferences:submit', (_, userPreferences) => {
   // generate Prometheus, Docker, Grafana, etc. config files based on user input
   preferences = userPreferences;
-  const { brokers, metrics } = userPreferences;
-  configGenerator(brokers, metrics);
+  const { brokers, metrics, email } = userPreferences;
+  configGenerator(brokers, metrics, email);
   if (brokers === 1) {
     dockerExec(
       './configs/docker/docker_single_node.yml up -d --remove-orphans'
@@ -113,7 +113,6 @@ ipcMain.on('cluster:shutdown', () => {
 
 function dockerExec(path) {
   const dockerCommand = 'docker-compose -p kaffia-cluster -f ' + path;
-
   exec(dockerCommand, (err, stdout, stderr) => {
     if (err) {
       console.log(err);

@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
 
@@ -24,6 +25,8 @@ export default function Launch() {
     cluster_replication: [],
     topics_logs: [],
   });
+  const [emailDisabled, setEmailDisabled] = useState(true);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     ipcRenderer.on('docker:closed', () => {
@@ -48,7 +51,11 @@ export default function Launch() {
     for (const dashboard in metrics) {
       if (!metrics[dashboard].length) delete metrics[dashboard];
     }
-    ipcRenderer.send('preferences:submit', { brokers, metrics });
+    if (emailDisabled) {
+      ipcRenderer.send('preferences:submit', { brokers, metrics });
+    } else {
+      ipcRenderer.send('preferences:submit', { brokers, metrics, email });
+    }
     const loadingScreen = document.createElement('div');
     loadingScreen.setAttribute('id', 'loading');
     const loadingText = document.createElement('h2');
@@ -85,10 +92,6 @@ export default function Launch() {
         [dashboard]: Array.from(dashboardMetrics),
       });
     }
-  };
-
-  const handleQuit = () => {
-    ipcRenderer.send('app:quit');
   };
 
   return (
@@ -290,6 +293,21 @@ export default function Launch() {
               />
             </Grid>
           </Grid>
+        </FormGroup>
+        <h2>Alerting</h2>
+        <FormGroup sx={{ mb: 4 }}>
+          <FormControlLabel
+            control={<Checkbox name="log_info" />}
+            label="Alert me"
+            onChange={() => setEmailDisabled(!emailDisabled)}
+          />
+          <TextField
+            disabled={emailDisabled}
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            onChange={(text) => setEmail(text.target.value)}
+          />
         </FormGroup>
         <Button type="submit" variant="contained" color="primary">
           Submit
