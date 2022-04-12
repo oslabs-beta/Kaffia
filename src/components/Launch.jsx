@@ -10,11 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-<<<<<<< HEAD
-  TextField // added
-=======
   TextField,
->>>>>>> 470b1d88579593df51996cc79a21782115bfe80f
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
 

@@ -3,7 +3,7 @@ groups:
   - name: Broker_Hard_Disk_Usage
     rules:
       - alert: Global_Topics_Size_With_Replication
-        expr:    < 1  # need to change the alert condition
+        expr:  sum(kafka_log_size{env="$env"}) by (topic) < 1  # need to change the alert condition
         for: 1m   # telling Prometheus to send alert only when expression holds true for 1 minute
         labels:
           severity: high
