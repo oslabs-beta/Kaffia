@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Equalizer, Home, Settings, TrendingUp } from '@mui/icons-material';
 import { ipcRenderer } from 'electron';
+import WhiteIcon from '../assets/white-icon.png';
 
 export default function Sidebar() {
   const handleShutdown = () => {
@@ -21,11 +22,8 @@ export default function Sidebar() {
   return (
     <Drawer id="sidebar" variant="permanent">
       <center>
-        <img
-          id="main-logo"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/100px-Wikimedia-logo.png"
-        ></img>
-        <h2>Kaffia</h2>
+        <img id="main-logo" src={WhiteIcon}></img>
+        <h2 style={{ marginTop: 0 }}>Kaffia</h2>
         <Button sx={{ mb: 3 }} onClick={handleShutdown} variant="contained">
           Stop Cluster
         </Button>
