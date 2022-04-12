@@ -41,9 +41,7 @@ Read on to see some of our core features and learn how you can get Kaffia up and
 
 ### Custom cluster metrics
 
--
-
----
+- ***
 
 ## <a name="getting-started"></a> Getting Started with Kaffia
 
@@ -75,6 +73,8 @@ After the cluster launches, you'll be able to navigate throughout the app and vi
 - [Jonathan Oh](https://www.linkedin.com/in/jonathan-oh/)
 
 ### <a name="contribute"></a> Contribute to Kaffia
+
+We welcome any and all contributions to Kaffia! You can reach out to one of us on LinkedIn if you have any ideas, or you can fork the repository, make some changes, and submit a pull request.
 
 ---
 
