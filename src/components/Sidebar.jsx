@@ -51,24 +51,26 @@ export default function Sidebar() {
             <MenuItem component={Link} to="/brokerJVMOS">
               <ListItemText primary="Broker JVM and OS" />
             </MenuItem>
-            <MenuItem component={Link} to="/producers">
-              <ListItemText primary="Producers" />
+            <MenuItem component={Link} to="/brokerPerformance">
+              <ListItemText primary="Broker Performance" />
             </MenuItem>
-            <MenuItem component={Link} to="/topics">
-              <ListItemText primary="Topics" />
+            <MenuItem component={Link} to="/brokerZookeeper">
+              <ListItemText primary="Broker Zookeeper" />
+            </MenuItem>
+            <MenuItem component={Link} to="/clusterHealthcheck">
+              <ListItemText primary="Cluster Healthcheck" />
+            </MenuItem>
+            <MenuItem component={Link} to="/clusterReplication">
+              <ListItemText primary="Cluster Replication" />
+            </MenuItem>
+            <MenuItem component={Link} to="/topicsLogs">
+              <ListItemText primary="Topics Logs" />
             </MenuItem>
             <MenuItem component={Link} to="/HelpTab">
               <ListItemText primary="HelpTab" />
             </MenuItem>
           </List>
         </Collapse>
-        <Divider />
-        <MenuItem component={Link} to="/performance">
-          <ListItemIcon>
-            <TrendingUp />
-          </ListItemIcon>
-          <ListItemText primary="Performance Metrics" />
-        </MenuItem>
         <Divider />
         <MenuItem component={Link} to="/settings">
           <ListItemIcon>
