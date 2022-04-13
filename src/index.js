@@ -13,11 +13,27 @@ const theme = createTheme({
     mode: 'dark',
     primary: {
       main: '#329d9c',
+      light: 'rgb(91, 176, 175)',
     },
     secondary: {
       main: '#205072',
     },
+    background: {
+      paper: '#424242',
+    },
   },
+  // components: {
+  //   Typography: {
+  //     variants: [
+  //       {
+  //         props: { variant: 'emphasis' },
+  //         style: {
+
+  //         }
+  //       },
+  //     ],
+  //   },
+  // },
 });
 
 if (document.getElementById('root')) {
