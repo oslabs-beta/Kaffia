@@ -15,7 +15,6 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   background-color: rgb(32, 32, 87);
-  // background-color: #565656;
   border-radius: 7px;
 }
 
@@ -42,12 +41,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 #launch-header {
-  height: 70px;
-  background-color: blue;
+  height: 90px;
+  background-color: white;
   position: sticky;
   z-index: 2;
   top: 0;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #launch-header > img {
@@ -55,8 +57,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 #main-logo {
-  height: 100px;
-  width: 100px;
+  margin-top: 10px;
+  height: 150px;
+  width: 150px;
 }
 
 #loading {
@@ -72,4 +75,8 @@ body::-webkit-scrollbar-thumb {
   img {
     height: 80px;
   }
+}
+
+#sidebar > * {
+  background-color: #205072;
 }

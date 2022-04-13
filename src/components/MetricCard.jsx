@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import Grid from '@mui/material/Grid';
 
-export default function MetricCard(props) {
+function MetricCard(props) {
     const {metricURL} = props;
     return (
         <>
@@ -22,3 +22,6 @@ export default function MetricCard(props) {
         </>
     );
 }
+
+
+export default MetricCard;

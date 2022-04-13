@@ -37,6 +37,7 @@ services:
       - '9090:9090'
     volumes:
       - ../prometheus/prometheus.yml:/../prometheus/prometheus.yml
+      - ../prometheus/alert_rules.yml:/../prometheus/alert_rules.yml
     command: '--config.file=/../prometheus/prometheus.yml'
     container_name: prometheus
   zk1:
@@ -83,3 +84,5 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'false'
       KAFKA_HEAP_OPTS: '-Xmx512M -Xms512M'
+volumes:
+  alertmanager-data:

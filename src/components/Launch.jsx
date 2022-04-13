@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Button,
   FormControlLabel,
@@ -9,9 +10,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
-import { cluster_replication } from '../../configs/grafana/templates/panels_template';
+import Logo from '../assets/app-logo.png';
 
 export default function Launch() {
   const [brokers, setBrokers] = useState(1);
@@ -24,13 +26,38 @@ export default function Launch() {
     cluster_replication: [],
     topics_logs: [],
   });
+  const [emailDisabled, setEmailDisabled] = useState(true);
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    ipcRenderer.on('docker:closed', () => {
+      ReactDOM.render(
+        <>
+          <h2>Is Docker running?</h2>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => document.getElementById('loading').remove()}
+          >
+            Try Again
+          </Button>
+        </>,
+        document.getElementById('loading')
+      );
+    });
+  });
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     for (const dashboard in metrics) {
       if (!metrics[dashboard].length) delete metrics[dashboard];
     }
-    ipcRenderer.send('preferences:submit', { brokers, metrics });
+    if (emailDisabled) {
+      ipcRenderer.send('preferences:submit', { brokers, metrics });
+    } else {
+      ipcRenderer.send('preferences:submit', { brokers, metrics, email });
+    }
     const loadingScreen = document.createElement('div');
     loadingScreen.setAttribute('id', 'loading');
     const loadingText = document.createElement('h2');
@@ -69,18 +96,13 @@ export default function Launch() {
     }
   };
 
-  const handleQuit = () => {
-    ipcRenderer.send('app:quit');
-  };
-
   return (
     <center>
       <div id="launch-header">
-        {/* logo placeholder */}
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikimedia-logo.png/100px-Wikimedia-logo.png"></img>
+        <img src={Logo}></img>
       </div>
       <form style={{ padding: '0px 40px' }} onSubmit={handleSubmit}>
-        <h2>Cluster Broker Count</h2>
+        <h2>Cluster Broker Count</h2> 
         <InputLabel id="demo-simple-select-label">Brokers</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -96,6 +118,7 @@ export default function Launch() {
           <MenuItem value={4}>4</MenuItem>
           <MenuItem value={5}>5</MenuItem>
         </Select>
+
         <h2>Metrics to Track</h2>
         <FormGroup
           sx={{ mb: 4 }}
@@ -272,6 +295,21 @@ export default function Launch() {
               />
             </Grid>
           </Grid>
+        </FormGroup>
+        <h2>Alerting</h2>
+        <FormGroup sx={{ mb: 4 }}>
+          <FormControlLabel
+            control={<Checkbox name="log_info" />}
+            label="Email me about key cluster issues"
+            onChange={() => setEmailDisabled(!emailDisabled)}
+          />
+          <TextField
+            disabled={emailDisabled}
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            onChange={(text) => setEmail(text.target.value)}
+          />
         </FormGroup>
         <Button type="submit" variant="contained" color="primary">
           Submit

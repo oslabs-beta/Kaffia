@@ -26,8 +26,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    console.log("this.state.metrics: ", this.state.metrics);
-    // console.log("metricProps: ", metricProps);
+    // console.log("this.state.metrics: ", this.state.metrics);
   }
   
 
@@ -40,7 +39,13 @@ class App extends Component {
     return (
       <HashRouter>
         <Sidebar />
-        <main style={{ marginLeft: '250px' }}>
+        <main
+          style={{
+            marginLeft: '250px',
+            marginTop: '15px',
+            marginRight: '30px',
+          }}
+          >
           {this.state.metrics &&
           <Routes>
             <Route exact path="/" element={<Overview />} />
@@ -88,8 +93,7 @@ class App extends Component {
             <Route exact path="/performance" element={<Performance />} />
             <Route exact path="/settings" element={<Settings />} />
           </Routes>
-          }
-          
+          }      
         </main>
       </HashRouter>
     );

@@ -1,0 +1,16 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: 'gmail-notifications'
+
+receivers:
+  - name: 'gmail-notifications'
+    email_configs:
+      - to: <insert_user_email_here>
+        from: kaffiamonitor@gmail.com
+        smarthost: smtp.gmail.com:587
+        auth_username: kaffiamonitor@gmail.com
+        auth_identity: kaffiamonitor@gmail.com
+        auth_password: dhfyxdzixrvlhotl
+        send_resolved: true
