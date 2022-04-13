@@ -1,5 +1,4 @@
-const path = require('path');
-const { app, ipcMain, Menu } = require('electron');
+const { app, ipcMain, Menu, shell } = require('electron');
 const { exec } = require('child_process');
 const configGenerator = require('./configs/configGenerator.js');
 
@@ -112,3 +111,7 @@ function dockerExec(path) {
     console.log(stdout);
   });
 }
+
+ipcMain.on('github:launch', () => {
+  shell.openExternal('https://github.com/oslabs-beta/Kaffia');
+});
