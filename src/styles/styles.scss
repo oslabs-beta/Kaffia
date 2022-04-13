@@ -14,13 +14,13 @@ body::-webkit-scrollbar-thumb {
 .codeblock {
   display: flex;
   flex-direction: column;
-  background-color: rgb(32, 32, 87);
+  background-color: #329d9c;
   border-radius: 7px;
 }
 
 .copyButton {
   position: absolute;
-  right: 0;
+  right: 35px;
   text-align: center;
   margin: 10px;
   border-radius: 5px;
@@ -29,7 +29,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .copyButton:hover {
-  color: blue;
+  color: #205072;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),

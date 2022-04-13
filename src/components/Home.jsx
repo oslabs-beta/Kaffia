@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 
-class Settings extends Component {
+class Dashboard extends Component {
   constructor() {
     super();
-  }
-
-  componentDidMount() {
-    console.log('hi');
   }
 
   render() {
     return (
       <div>
-        <h1>Settings</h1>
+        <h1>Welcome to Kaffia!</h1>
+        
       </div>
     );
   }
 }
 
-export default Settings;
+export default Dashboard;

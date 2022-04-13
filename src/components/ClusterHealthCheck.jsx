@@ -1,15 +1,14 @@
 import React from 'react';
-import metricURLs from '../models/metricURLs';
 import renderMetricPanels from './_utils/renderMetricPanels';
 
 function ClusterHealthCheck(props) {
-    const {metrics} = props;
-    return (
-        <>
-            <h1>Cluster Health Check</h1>
-            {metrics && renderMetricPanels(metrics, metricURLs.cluster_healthcheck)}
-        </>
-    );
+  const { metrics, metricURLs } = props;
+  return (
+    <>
+      <h1>Cluster Health Check</h1>
+      {metrics && renderMetricPanels(metrics, metricURLs)}
+    </>
+  );
 }
 
 export default ClusterHealthCheck;
