@@ -159,7 +159,8 @@ const promConfigGenerator = (brokerCount, email) => {
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
 
     if (email) {
-      promConfig.alerting.alertmanagers[0].static_configs[0].targets = [
+      promConfig.rule_files[0] = [ 'alert_rules.yml' ];
+      promConfig.alerting.alertmanagers[0].static_configs[0].targets[0] = [
         'alertmanager:9096',
       ];
     }
@@ -202,7 +203,7 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
       'utf8'
     )
   );
-  const whitelist = new Set();
+  // const whitelist = new Set();
 
   // loop through each user-selected dashboard to add panels to Prometheus file
   for (const dashboard in userMetrics) {
@@ -216,7 +217,7 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
     // add jmx-exporter metric to whitelist to scrape that item
     // add panel to Grafana dashboard
     for (const panel of userMetrics[dashboard]) {
-      jmxMetrics[dashboard][panel].forEach(whitelist.add, whitelist);
+      // jmxMetrics[dashboard][panel].forEach(whitelist.add, whitelist);
       grafanaFile.panels.push(...grafanaPanels[dashboard][panel]);
     }
     fs.writeFileSync(
@@ -225,7 +226,7 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
       { noRefs: true }
     );
   }
-  config_kafka_template.whitelistObjectNames = [...whitelist];
+  // config_kafka_template.whitelistObjectNames = [...whitelist];
 
   // save jmx-exporter config files with correct ports
   for (let i = 0; i < brokerCount; i++) {

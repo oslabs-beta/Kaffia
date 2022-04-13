@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Brokers from './Brokers';
+// import Brokers from './Brokers';
 import Consumers from './Consumers';
 import Producers from './Producers';
 import Topics from './Topics';
@@ -13,9 +13,9 @@ class Cluster extends Component {
   render() {
     return (
       <>
-        <React.Suspense fallback={<>...</>}>
+        {/* <React.Suspense fallback={<>...</>}>
           <Brokers />
-        </React.Suspense>
+        </React.Suspense> */}
         <React.Suspense fallback={<>...</>}>
           <Consumers />
         </React.Suspense>

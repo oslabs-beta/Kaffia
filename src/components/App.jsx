@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
+import {ipcRenderer} from 'electron';
 
-const Brokers = React.lazy(() => import('./Brokers'));
-const Consumers = React.lazy(() => import('./Consumers'));
-const Producers = React.lazy(() => import('./Producers'));
-const Topics = React.lazy(() => import('./Topics'));
-const HelpTab = React.lazy(() => import('./HelpTab'));
-
+import BrokerHardDiskUsage from './BrokerHardDiskUsage';
+import BrokerJVMAndOS from './BrokerJVMOS';
+import BrokerPerformance from './BrokerPerformance';
+import BrokerZookeeper from './BrokerZookeeper';
+import ClusterHealthCheck from './ClusterHealthCheck';
+import ClusterReplication from './ClusterReplication';
+import TopicLogs from './TopicsLogs';
+import HelpTab from './HelpTab';
 import Cluster from './Cluster';
 import Overview from './Overview';
 import Performance from './Performance';
 import Settings from './Settings';
 import Sidebar from './Sidebar';
-import { ipcRenderer } from 'electron';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {};
   }
+
   componentDidMount() {
     ipcRenderer.send('app:rendered');
     ipcRenderer.on('preferences:send', (event, preferences) => {
@@ -27,10 +30,22 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state);
+    ipcRenderer.send('app:rendered');
   }
 
   render() {
+    let broker_hard_disk_usage, broker_jvm_os, broker_performance, broker_zookeeper, cluster_healthcheck, cluster_replication, topics_logs;
+    if(this.state.metrics) {
+      ({
+        broker_hard_disk_usage,
+        broker_jvm_os, broker_performance,
+        broker_zookeeper,
+        cluster_healthcheck,
+        cluster_replication,
+        topics_logs
+      } = this.state.metrics);
+    }
+
     return (
       <HashRouter>
         <Sidebar />
@@ -40,58 +55,55 @@ class App extends Component {
             marginTop: '15px',
             marginRight: '30px',
           }}
-        >
+          >
+          {this.state.metrics &&
           <Routes>
             <Route exact path="/" element={<Overview />} />
             <Route exact path="/cluster" element={<Cluster />} />
             <Route
               exact
-              path="/brokers"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Brokers />
-                </React.Suspense>
-              }
+              path="/brokerHardDiskUsage"
+              element={<BrokerHardDiskUsage metrics={broker_hard_disk_usage} />}
             />
             <Route
               exact
-              path="/consumers"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Consumers />
-                </React.Suspense>
-              }
+              path="/brokerJVMOS"
+              element={<BrokerJVMAndOS metrics={broker_jvm_os} />}
             />
             <Route
               exact
-              path="/producers"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Producers />
-                </React.Suspense>
-              }
+              path="/brokerPerformance"
+              element={<BrokerPerformance metrics={broker_performance} />}
             />
             <Route
               exact
-              path="/topics"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Topics />
-                </React.Suspense>
-              }
+              path="/brokerZookeeper"
+              element={<BrokerZookeeper metrics={broker_zookeeper} />} 
+            />
+            <Route
+              exact
+              path="/clusterHealthcheck"
+              element={<ClusterHealthCheck metrics={cluster_healthcheck} />}
+            />
+            <Route
+              exact
+              path="/clusterReplication"
+              element={<ClusterReplication metrics={cluster_replication} />}
+            />
+            <Route
+              exact
+              path="/topicsLogs"
+              element={<TopicLogs metrics={topics_logs} />}
             />
             <Route
               exact
               path="/HelpTab"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <HelpTab />
-                </React.Suspense>
-              }
+              element={<HelpTab />}
             />
             <Route exact path="/performance" element={<Performance />} />
             <Route exact path="/settings" element={<Settings />} />
           </Routes>
+          }      
         </main>
       </HashRouter>
     );
