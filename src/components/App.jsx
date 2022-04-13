@@ -3,7 +3,7 @@ import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
 
 import BrokerHardDiskUsage from './BrokerHardDiskUsage';
-import BrokerJVMAndOS from './BrokerJvmOs';
+import BrokerJvmAndOs from './BrokerJvmAndOs';
 import BrokerPerformance from './BrokerPerformance';
 import BrokerZookeeper from './BrokerZookeeper';
 import ClusterHealthCheck from './ClusterHealthCheck';
@@ -83,7 +83,7 @@ class App extends Component {
                   exact
                   path="/brokerJvmOs"
                   element={
-                    <BrokerJVMAndOS
+                    <BrokerJvmAndOs
                       metrics={broker_jvm_os}
                       metricURLs={links.broker_jvm_os}
                     />
