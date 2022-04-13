@@ -7,7 +7,7 @@ function BrokerPerformance(props) {
     return (
         <>
             <h1>Broker Performance</h1>
-            {renderMetricPanels(metrics, metricURLs.broker_performance)}
+            {metrics && renderMetricPanels(metrics, metricURLs.broker_performance)}
         </>
     );
 }
