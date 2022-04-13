@@ -1,6 +1,6 @@
 <p align="center">
   <a href="">
-    <img src="./src/assets/github-logo.jpg" alt="Logo" width="300" >
+    <img src="./src/assets/github-logo.jpg" alt="Logo" width="400" >
   </a>
   <h4 align="center">Intuitive, customizable Kafka cluster metrics</h4>
   <p align="center">
@@ -16,7 +16,7 @@
 
 ---
 
-## Table of Contents
+## Table of Contents 🗺️
 
 - [About Kaffia](#about)
 - [Features](#features)
@@ -27,7 +27,7 @@
 
 ---
 
-## <a name="about"></a> About Kaffia
+## <a name="about"></a> About Kaffia 📙
 
 Apache Kafka is one of the most widely used stream-processing platforms, yet it lacks a free, easy-to-use GUI to monitor key Kafka cluster metrics. Without a comprehensive monitoring tool, the barrier to entry of Apache Kafka remains high, and engineers working with Kafka clusters may miss key issues as they come up.
 
@@ -37,27 +37,27 @@ Read on to see some of our core features and learn how you can get Kaffia up and
 
 ---
 
-## <a name="features"></a> Core Features
+## <a name="features"></a> Core Features 😊
 
-### Easy setup
+### Easy setup ✅
 
 - Easily configure your Kafka cluster broker count, monitor certain metrics, and sign up for email alerts
 - One button launches your cluster, metrics scrapers, visualization service, and alert manager—automatically!
 
-### Comprehensive visualization
+### Comprehensive visualization 🔎
 
 - View key Kafka metrics (broker count, throughput, topic size, etc.)
 - Live updates as you produce to and consume from your cluster
 - Intuitive GUI to make parsing complex data less cumbersome
 
-### Quickly launch and stop your cluster
+### Quickly launch and stop your cluster ⚡️
 
 - Containerize your cluster in Docker Desktop with the click of a button
 - Easily shut down your cluster from the Kaffia dashboard
 
 ---
 
-## <a name="getting-started"></a> Getting Started with Kaffia
+## <a name="getting-started"></a> Getting Started with Kaffia ⬆️
 
 Kaffia automates cluster configuration and launching by creating a Docker application that containerizes everything from Zookeeper to the metrics scraper. Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) up and running before you launch Kaffia.
 
@@ -79,19 +79,19 @@ After the cluster launches, you'll be able to navigate throughout the app and vi
 
 ---
 
-## <a name="contributors"></a> Contributors
+## <a name="contributors"></a> Contributors 👋
 
 - Liz Blackledge <a href="https://github.com/Liz5112"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/Liz5112?style=social"></a> <a href="https://www.linkedin.com/in/lizblackledge01/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
 - Aiden Blinn <a href="https://github.com/aidenblinn"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/aidenblinn?style=social"></a> <a href="https://www.linkedin.com/in/aidenblinn/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
 - Ritchie Cervantes <a href="https://github.com/rcervant"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/rcervant?style=social"></a> <a href="https://www.linkedin.com/in/ritchie-cervantes/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
 - Jonathan Oh <a href="https://github.com/jonoh9257"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/jonoh9257?style=social"></a> <a href="https://www.linkedin.com/in/jonathan-oh/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
 
-### <a name="contribute"></a> Contribute to Kaffia
+### <a name="contribute"></a> Contribute to Kaffia 💪
 
 We welcome any and all contributions to Kaffia! You can reach out to one of us on LinkedIn if you have any ideas, or you can fork the repository, make some changes, and submit a pull request.
 
 ---
 
-## <a name="license"></a> License
+## <a name="license"></a> License 🧐
 
 MIT License
