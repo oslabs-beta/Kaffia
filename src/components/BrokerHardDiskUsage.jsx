@@ -7,7 +7,7 @@ function BrokerHardDiskUsage(props) {
     return (
         <>
             <h1>Broker Hard Disk Usage</h1>
-            {renderMetricPanels(metrics, metricURLs.broker_hard_disk_usage)}
+            {metrics && renderMetricPanels(metrics, metricURLs.broker_hard_disk_usage)}
         </>
     );
 }
