@@ -7,7 +7,7 @@ function BrokerJVMAndOS(props) {
     return (
         <>
             <h1>Broker JVM and OS Metrics</h1>
-            {renderMetricPanels(metrics, metricURLs.broker_jvm_os)}
+            {metrics && renderMetricPanels(metrics, metricURLs.broker_jvm_os)}
         </>
     );
 }
