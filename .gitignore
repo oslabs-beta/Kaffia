@@ -7,8 +7,3 @@ configs/prometheus/prometheus.yml
 configs/jmx_exporter/config_kafka1*
 configs/alertmanager/alertmanager.yml
 configs/docker/docker_single_node.yml
-
-# experimental configs folder
-configs2
-
-out/

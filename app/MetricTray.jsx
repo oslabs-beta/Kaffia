@@ -1,3 +1,10 @@
+/**
+ * The Metric Tray is a feature for a future release. This tray
+ * is designed to provide the user a quick glance at core metrics
+ * by just clicking on an icon in the user's menu without having
+ * to open the whole app and look at the entire dashboard.
+ */
+
 const electron = require('electron');
 const { Tray, Menu } = electron;
 

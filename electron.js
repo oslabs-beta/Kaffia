@@ -34,12 +34,14 @@ const menuTemplate = [
   },
 ];
 
+// handle specific menu issue for Macs
 if (process.platform === 'darwin') {
   menuTemplate.unshift({
     label: '',
   });
 }
 
+// add dev tools to menu if in development mode
 if (process.env.NODE_ENV === 'development') {
   menuTemplate.push({
     label: 'Developer',
@@ -47,6 +49,7 @@ if (process.env.NODE_ENV === 'development') {
   });
 }
 
+// enter the main app once the Docker container has launched
 function enterApp() {
   // close launch window and show main window
   launchWindow.hide();
@@ -68,6 +71,7 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
       './configs/docker/docker_multiple_nodes.yml up -d --remove-orphans'
     );
 
+  // continue to check for a running cluster every second before launching the main app
   function checkForCluster() {
     exec('docker logs grafana', (err, stdout, stderr) => {
       if (stderr.includes('Cannot connect to the Docker daemon')) {
@@ -79,10 +83,10 @@ ipcMain.on('preferences:submit', (_, userPreferences) => {
       setTimeout(checkForCluster, 1000);
     });
   }
-
   checkForCluster();
 });
 
+// send preferences to React side when page is rendered
 ipcMain.on('app:rendered', () => {
   mainWindow.webContents.send('preferences:send', preferences);
 });
@@ -91,6 +95,7 @@ ipcMain.on('app:quit', () => {
   app.quit();
 });
 
+// run command to shut down cluster when user presses shutdown button
 ipcMain.on('cluster:shutdown', () => {
   if (preferences.brokers === 1) {
     dockerExec('./configs/docker/docker_single_node.yml down');
@@ -99,6 +104,7 @@ ipcMain.on('cluster:shutdown', () => {
   launchWindow = new LaunchWindow(`file://${__dirname}/src/launch.html`);
 });
 
+// execute command to start up or shut down Docker app
 function dockerExec(path) {
   const dockerCommand = 'docker-compose -p kaffia-cluster -f ' + path;
   exec(dockerCommand, (err, stdout, stderr) => {
@@ -112,6 +118,7 @@ function dockerExec(path) {
   });
 }
 
+// open GitHub in external browser when user clicks link on Home page
 ipcMain.on('github:launch', () => {
   shell.openExternal('https://github.com/oslabs-beta/Kaffia');
 });

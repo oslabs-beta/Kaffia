@@ -159,7 +159,7 @@ const promConfigGenerator = (brokerCount, email) => {
     promConfig.scrape_configs[0].static_configs[0].targets = promTargets;
 
     if (email) {
-      promConfig.rule_files[0] = [ 'alert_rules.yml' ];
+      promConfig.rule_files[0] = ['alert_rules.yml'];
       promConfig.alerting.alertmanagers[0].static_configs[0].targets[0] = [
         'alertmanager:9096',
       ];
@@ -203,7 +203,6 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
       'utf8'
     )
   );
-  // const whitelist = new Set();
 
   // loop through each user-selected dashboard to add panels to Prometheus file
   for (const dashboard in userMetrics) {
@@ -238,10 +237,19 @@ const jvmGrafanaConfigGenerator = (brokerCount, userMetrics) => {
   }
 };
 
+/**
+ * alertConfigGenerator creates a yaml file to alert the user
+ * about critical cluster issues using the email provided on the
+ * launch page form.
+ * @param email: user-specified email address
+ * @returns void
+ *
+ */
+
 const alertConfigGenerator = (email) => {
   try {
-    // read in prometheus.yml template file and add jmx-exporter ports depending on
-    // the user's preferred number of Kafka brokers
+    // read in alert manager template file and update with email
+    // provided by user
     const alertManager = yaml.load(
       fs.readFileSync(
         path.join(__dirname, 'alertmanager/alertmanager_template.yml'),
@@ -249,6 +257,8 @@ const alertConfigGenerator = (email) => {
       )
     );
     alertManager.receivers[0].email_configs[0].to = email;
+    // save updated file to be used when Docker launches
+    // the necessary containerized services
     fs.writeFileSync(
       path.join(__dirname, 'alertmanager/alertmanager.yml'),
       yaml.dump(alertManager, { noRefs: true })
@@ -259,7 +269,7 @@ const alertConfigGenerator = (email) => {
 };
 
 module.exports = (brokerCount, metrics, email) => {
-  // run all three config methods each time user submits form with preferences
+  // run all three (or four) config methods each time user submits form with preferences
   promConfigGenerator(brokerCount, email);
   jvmGrafanaConfigGenerator(brokerCount, metrics);
   if (email) alertConfigGenerator(email);
