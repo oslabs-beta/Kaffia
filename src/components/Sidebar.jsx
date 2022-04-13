@@ -8,13 +8,22 @@ import {
   ListItemIcon,
   ListItemText,
   MenuItem,
-  Collapse,
 } from '@mui/material';
-import { Equalizer, Home, Settings, TrendingUp } from '@mui/icons-material';
+import {
+  BarChart,
+  Computer,
+  ContentCopy,
+  HealthAndSafety,
+  Help,
+  Home,
+  Pets,
+  Save,
+  Topic,
+} from '@mui/icons-material';
 import { ipcRenderer } from 'electron';
 import WhiteIcon from '../assets/white-icon.png';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const handleShutdown = () => {
     ipcRenderer.send('cluster:shutdown');
   };
@@ -34,49 +43,69 @@ export default function Sidebar() {
           <ListItemIcon>
             <Home />
           </ListItemIcon>
-          <ListItemText primary="Overview" />
+          <ListItemText primary="Home" />
         </MenuItem>
-        <Divider />
-        <MenuItem component={Link} to="/cluster">
+        {props.elements.broker_hard_disk_usage && (
+          <MenuItem component={Link} to="/brokerHardDiskUsage">
+            <ListItemIcon>
+              <Save />
+            </ListItemIcon>
+            <ListItemText primary="Hard Disk Usage" />
+          </MenuItem>
+        )}
+        {props.elements.broker_jvm_os && (
+          <MenuItem component={Link} to="/brokerJvmOs">
+            <ListItemIcon>
+              <Computer />
+            </ListItemIcon>
+            <ListItemText primary="Java Virtual Machine" />
+          </MenuItem>
+        )}
+        {props.elements.broker_performance && (
+          <MenuItem component={Link} to="/brokerPerformance">
+            <ListItemIcon>
+              <BarChart />
+            </ListItemIcon>
+            <ListItemText primary="Broker Performance" />
+          </MenuItem>
+        )}
+        {props.elements.broker_zookeeper && (
+          <MenuItem component={Link} to="/brokerZookeeper">
+            <ListItemIcon>
+              <Pets />
+            </ListItemIcon>
+            <ListItemText primary="Zookeeper" />
+          </MenuItem>
+        )}
+        {props.elements.cluster_healthcheck && (
+          <MenuItem component={Link} to="/clusterHealthcheck">
+            <ListItemIcon>
+              <HealthAndSafety />
+            </ListItemIcon>
+            <ListItemText primary="Cluster Healthcheck" />
+          </MenuItem>
+        )}
+        {props.elements.cluster_replication && (
+          <MenuItem component={Link} to="/clusterReplication">
+            <ListItemIcon>
+              <ContentCopy />
+            </ListItemIcon>
+            <ListItemText primary="Cluster Replication" />
+          </MenuItem>
+        )}
+        {props.elements.topics_logs && (
+          <MenuItem component={Link} to="/topicsLogs">
+            <ListItemIcon>
+              <Topic />
+            </ListItemIcon>
+            <ListItemText primary="Topics & Logs" />
+          </MenuItem>
+        )}
+        <MenuItem component={Link} to="/HelpTab">
           <ListItemIcon>
-            <Equalizer />
+            <Help />
           </ListItemIcon>
-          <ListItemText primary="Cluster Metrics" />
-        </MenuItem>
-        <Collapse in={true} component="li" timeout="auto">
-          <List disablePadding sx={{ ml: 6 }}>
-            <MenuItem component={Link} to="/brokerHardDiskUsage">
-              <ListItemText primary="Broker Hard Disk Usage" />
-            </MenuItem>
-            <MenuItem component={Link} to="/brokerJVMOS">
-              <ListItemText primary="Broker JVM and OS" />
-            </MenuItem>
-            <MenuItem component={Link} to="/brokerPerformance">
-              <ListItemText primary="Broker Performance" />
-            </MenuItem>
-            <MenuItem component={Link} to="/brokerZookeeper">
-              <ListItemText primary="Broker Zookeeper" />
-            </MenuItem>
-            <MenuItem component={Link} to="/clusterHealthcheck">
-              <ListItemText primary="Cluster Healthcheck" />
-            </MenuItem>
-            <MenuItem component={Link} to="/clusterReplication">
-              <ListItemText primary="Cluster Replication" />
-            </MenuItem>
-            <MenuItem component={Link} to="/topicsLogs">
-              <ListItemText primary="Topics Logs" />
-            </MenuItem>
-            <MenuItem component={Link} to="/HelpTab">
-              <ListItemText primary="HelpTab" />
-            </MenuItem>
-          </List>
-        </Collapse>
-        <Divider />
-        <MenuItem component={Link} to="/settings">
-          <ListItemIcon>
-            <Settings />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Help" />
         </MenuItem>
       </List>
     </Drawer>
