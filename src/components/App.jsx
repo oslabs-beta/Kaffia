@@ -4,20 +4,24 @@ import {ipcRenderer} from 'electron';
 
 import BrokerHardDiskUsage from './BrokerHardDiskUsage';
 import BrokerJVMAndOS from './BrokerJVMOS';
-import Consumers from './Consumers';
-import Producers from './Producers';
-import Topics from './Topics';
+import BrokerPerformance from './BrokerPerformance';
+import BrokerZookeeper from './BrokerZookeeper';
+import ClusterHealthCheck from './ClusterHealthCheck';
+import ClusterReplication from './ClusterReplication';
+import TopicLogs from './TopicsLogs';
 import HelpTab from './HelpTab';
 import Cluster from './Cluster';
 import Overview from './Overview';
 import Performance from './Performance';
 import Settings from './Settings';
 import Sidebar from './Sidebar';
+
 class App extends Component {
   constructor() {
     super();
     this.state = {};
   }
+
   componentDidMount() {
     ipcRenderer.send('app:rendered');
     ipcRenderer.on('preferences:send', (event, preferences) => {
@@ -26,14 +30,20 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    // console.log("this.state.metrics: ", this.state.metrics);
+    ipcRenderer.send('app:rendered');
   }
-  
 
   render() {
     let broker_hard_disk_usage, broker_jvm_os, broker_performance, broker_zookeeper, cluster_healthcheck, cluster_replication, topics_logs;
     if(this.state.metrics) {
-      ({broker_hard_disk_usage, broker_jvm_os, broker_performance, broker_zookeeper, cluster_healthcheck, cluster_replication, topics_logs} = this.state.metrics);
+      ({
+        broker_hard_disk_usage,
+        broker_jvm_os, broker_performance,
+        broker_zookeeper,
+        cluster_healthcheck,
+        cluster_replication,
+        topics_logs
+      } = this.state.metrics);
     }
 
     return (
@@ -53,7 +63,7 @@ class App extends Component {
             <Route
               exact
               path="/brokerHardDiskUsage"
-              // element={<BrokerHardDiskUsage metrics={broker_hard_disk_usage} />}
+              element={<BrokerHardDiskUsage metrics={broker_hard_disk_usage} />}
             />
             <Route
               exact
@@ -63,27 +73,27 @@ class App extends Component {
             <Route
               exact
               path="/brokerPerformance"
-              element={<Producers />}
+              element={<BrokerPerformance metrics={broker_performance} />}
             />
             <Route
               exact
               path="/brokerZookeeper"
-              element={<Topics />}
+              element={<BrokerZookeeper metrics={broker_zookeeper} />} 
             />
             <Route
               exact
               path="/clusterHealthcheck"
-              element={<Topics />}
+              element={<ClusterHealthCheck metrics={cluster_healthcheck} />}
             />
             <Route
               exact
               path="/clusterReplication"
-              element={<Topics />}
+              element={<ClusterReplication metrics={cluster_replication} />}
             />
             <Route
               exact
               path="/topicsLogs"
-              element={<Topics />}
+              element={<TopicLogs metrics={topics_logs} />}
             />
             <Route
               exact
