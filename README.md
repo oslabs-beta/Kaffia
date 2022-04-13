@@ -1,16 +1,18 @@
-<center>
+<p align="center">
   <a href="">
     <img src="./src/assets/github-logo.jpg" alt="Logo" width="300" >
   </a>
   <h4 align="center">Intuitive, customizable Kafka cluster metrics</h4>
-  <a href=""><strong>Product Website »</strong></a>
-  <br></br>
-  <a href="https://github.com/oslabs-beta/kaffia"><img src="https://img.shields.io/badge/license-MIT-blue"/></a>
-  <a href="https://github.com/oslabs-beta/kaffia/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/oslabs-beta/kaffia"></a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/oslabs-beta/kaffia">
-  <br>
-  <a href="https://github.com/oslabs-beta/kaffia/stargazers"><img src="https://img.shields.io/github/stars/oslabs-beta/kaffia?style=social&label=Star&"/></a>
-</center>
+  <p align="center">
+    <a href=""><strong>Product Website »</strong></a>
+    <br></br>
+    <a href="https://github.com/oslabs-beta/kaffia"><img src="https://img.shields.io/badge/license-MIT-blue"/></a>
+    <a href="https://github.com/oslabs-beta/kaffia/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/oslabs-beta/kaffia"></a>
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/oslabs-beta/kaffia">
+    <br>
+    <a href="https://github.com/oslabs-beta/kaffia/stargazers"><img src="https://img.shields.io/github/stars/oslabs-beta/kaffia?style=social&label=Star&"/></a>
+  </p>
+</p>
 
 ---
 
@@ -37,9 +39,21 @@ Read on to see some of our core features and learn how you can get Kaffia up and
 
 ## <a name="features"></a> Core Features
 
-### Custom cluster metrics
+### Easy setup
 
-- Monitor
+- Easily configure your Kafka cluster broker count, monitor certain metrics, and sign up for email alerts
+- One button launches your cluster, metrics scrapers, visualization service, and alert manager—automatically!
+
+### Comprehensive visualization
+
+- View key Kafka metrics (broker count, throughput, topic size, etc.)
+- Live updates as you produce to and consume from your cluster
+- Intuitive GUI to make parsing complex data less cumbersome
+
+### Quickly launch and stop your cluster
+
+- Containerize your cluster in Docker Desktop with the click of a button
+- Easily shut down your cluster from the Kaffia dashboard
 
 ---
 
@@ -67,10 +81,10 @@ After the cluster launches, you'll be able to navigate throughout the app and vi
 
 ## <a name="contributors"></a> Contributors
 
-- [Liz Blackledge](https://www.linkedin.com/in/lizblackledge01/)
-- [Aiden Blinn](https://www.linkedin.com/in/aidenblinn/)
-- [Ritchie Cervantes](https://www.linkedin.com/in/ritchie-cervantes/)
-- [Jonathan Oh](https://www.linkedin.com/in/jonathan-oh/)
+- Liz Blackledge <a href="https://github.com/Liz5112"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/Liz5112?style=social"></a> <a href="https://www.linkedin.com/in/lizblackledge01/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
+- Aiden Blinn <a href="https://github.com/aidenblinn"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/aidenblinn?style=social"></a> <a href="https://www.linkedin.com/in/aidenblinn/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
+- Ritchie Cervantes <a href="https://github.com/rcervant"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/rcervant?style=social"></a> <a href="https://www.linkedin.com/in/ritchie-cervantes/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
+- Jonathan Oh <a href="https://github.com/jonoh9257"><img style="height:17px;margin:0px 10px" src="https://img.shields.io/github/followers/jonoh9257?style=social"></a> <a href="https://www.linkedin.com/in/jonathan-oh/"><img style="height:17px" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>
 
 ### <a name="contribute"></a> Contribute to Kaffia
 
