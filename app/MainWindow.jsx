@@ -1,3 +1,9 @@
+/**
+ * MainWindow takes advantage of Electron's built-in
+ * BrowserWindow to create a window with consistent sizing
+ * and settings tailored to its intended use.
+ */
+
 const electron = require('electron');
 
 const { BrowserWindow, app } = electron;

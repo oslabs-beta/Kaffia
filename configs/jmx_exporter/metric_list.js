@@ -21,7 +21,7 @@ module.exports = {
     request_rate: ['kafka.network:type=RequestMetrics,*'],
     queue_size: ['kafka.network:type=RequestChannel,*'],
     queue_time: ['kafka.network:type=RequestMetrics,*'],
-    time_placeholder: ['kafka.network:type=RequestMetrics,*'],
+    throttling: ['kafka.network:type=RequestMetrics,*'],
   },
   broker_zookeeper: {
     zookeeper_metrics: [

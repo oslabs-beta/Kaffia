@@ -65,7 +65,7 @@ export default {
       requestPerSec:
         'http://localhost:3000/d-solo/aRNaJwOmk/kafka-broker-performance-and-latency?orgId=1&refresh=5s&from=now-1h&to=now&panelId=12',
     },
-    time_placeholder: {
+    throttling: {
       throttleTime:
         'http://localhost:3000/d-solo/aRNaJwOmk/kafka-broker-performance-and-latency?orgId=1&refresh=5s&from=now-1h&to=now&panelId=5',
       localTime:

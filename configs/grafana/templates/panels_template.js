@@ -1723,7 +1723,7 @@ module.exports = {
         },
       },
     ],
-    time_placeholder: [
+    throttling: [
       {
         aliasColors: {},
         bars: false,

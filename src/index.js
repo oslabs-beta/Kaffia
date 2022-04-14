@@ -22,19 +22,10 @@ const theme = createTheme({
       paper: '#424242',
     },
   },
-  // components: {
-  //   Typography: {
-  //     variants: [
-  //       {
-  //         props: { variant: 'emphasis' },
-  //         style: {
-
-  //         }
-  //       },
-  //     ],
-  //   },
-  // },
 });
+
+// render either the main app or the launch page depending on
+// where the user currently is in the app
 
 if (document.getElementById('root')) {
   ReactDOM.render(
