@@ -33,6 +33,12 @@ const HelpTab = () => {
   return (
     <div style={{ marginBottom: '20px' }}>
       <h1>Help</h1>
+      <h3 style={{ marginBottom: '0px' }}>
+        Get started by running the commands below in your terminal
+      </h3>
+      <h3 style={{ marginTop: '0px' }}>
+        to test your metrics with some dummy data.
+      </h3>
       <h3>Create a Topic:</h3>
       <div class="codeblock">
         <span class="code" value={topic}>
