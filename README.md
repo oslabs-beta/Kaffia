@@ -4,7 +4,7 @@
   </a>
   <h4 align="center">Intuitive, customizable Kafka cluster metrics</h4>
   <p align="center">
-    <a href=""><strong>Product Website »</strong></a>
+    <a href="https://kaffia.dev"><strong>Product Website »</strong></a>
     <br></br>
     <a href="https://github.com/oslabs-beta/kaffia"><img src="https://img.shields.io/badge/license-MIT-blue"/></a>
     <a href="https://github.com/oslabs-beta/kaffia/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/oslabs-beta/kaffia"></a>
