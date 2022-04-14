@@ -75,11 +75,11 @@ npm start
 
 Once Kaffia is up and running, configuring and monitoring your cluster is simple! Just choose your broker count and metrics from the launch screen, hit submit, and watch your cluster launch automatically in Docker Desktop!
 
-![Launching app to put in metrics](src/assets/launch-demo.gif)
+<img src="src/assets/launch-demo.gif" width="300"/>
 
 After the cluster launches, you'll be able to navigate throughout the app and view different key metrics that will help you monitor your cluster's health without having to do any setup on your end. Enjoy!
 
-![Launching app to put in metrics](src/assets/main-demo.gif)
+<img src="src/assets/main-demo.gif" width="500"/>
 
 ---
 
