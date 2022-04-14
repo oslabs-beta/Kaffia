@@ -2,51 +2,54 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Button,
+  Checkbox,
   FormControlLabel,
   FormGroup,
   FormLabel,
   Grid,
-  Checkbox,
   InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from '@mui/material';
 import { ipcRenderer } from 'electron';
 import Logo from '../assets/app-logo.png';
 
+ipcRenderer.on('docker:closed', () => {
+  ReactDOM.render(
+    <>
+      <h2>Is Docker running?</h2>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => document.getElementById('loading').remove()}
+      >
+        Try Again
+      </Button>
+    </>,
+    document.getElementById('loading')
+  );
+});
+
 export default function Launch() {
   const [brokers, setBrokers] = useState(1);
   const [metrics, setMetrics] = useState({
-    broker_hard_disk_usage: [],
-    broker_jvm_os: [],
-    broker_performance: [],
+    broker_hard_disk_usage: ['global_topics_size'],
+    broker_jvm_os: ['memory_usage', 'cpu_usage', 'available_memory'],
+    broker_performance: ['request_rate', 'queue_size', 'queue_time'],
     broker_zookeeper: [],
-    cluster_healthcheck: [],
-    cluster_replication: [],
+    cluster_healthcheck: [
+      'core_healthcheck',
+      'throughput_io',
+      'isr_count_change',
+      'leaders_partitions',
+    ],
+    cluster_replication: ['replication_io', 'replication_lag'],
     topics_logs: [],
   });
   const [emailDisabled, setEmailDisabled] = useState(true);
   const [email, setEmail] = useState('');
-
-  useEffect(() => {
-    ipcRenderer.on('docker:closed', () => {
-      ReactDOM.render(
-        <>
-          <h2>Is Docker running?</h2>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => document.getElementById('loading').remove()}
-          >
-            Try Again
-          </Button>
-        </>,
-        document.getElementById('loading')
-      );
-    });
-  });
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -80,6 +83,7 @@ export default function Launch() {
       event.target.parentElement.parentElement.parentElement.parentElement
         .parentElement.id;
     if (event.target.checked) {
+      event.target.checked = true;
       const dashboardMetrics = [...metrics[dashboard]];
       dashboardMetrics.push(event.target.name);
       setMetrics({
@@ -87,6 +91,7 @@ export default function Launch() {
         [dashboard]: dashboardMetrics,
       });
     } else {
+      event.target.checked = false;
       const dashboardMetrics = new Set([...metrics[dashboard]]);
       dashboardMetrics.delete(event.target.name);
       setMetrics({
@@ -102,7 +107,7 @@ export default function Launch() {
         <img src={Logo}></img>
       </div>
       <form style={{ padding: '0px 40px' }} onSubmit={handleSubmit}>
-        <h2>Cluster Broker Count</h2> 
+        <h2>Cluster Broker Count</h2>
         <InputLabel id="demo-simple-select-label">Brokers</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -119,7 +124,10 @@ export default function Launch() {
           <MenuItem value={5}>5</MenuItem>
         </Select>
 
-        <h2>Metrics to Track</h2>
+        <h2 style={{ marginBottom: '0px' }}>Metrics to Track</h2>
+        <Typography sx={{ mb: 4 }}>
+          (recommended metrics are checked)
+        </Typography>
         <FormGroup
           sx={{ mb: 4 }}
           onChange={handleMetricsChange}
@@ -129,7 +137,9 @@ export default function Launch() {
           <Grid container direction="row">
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="global_topics_size" />}
+                control={
+                  <Checkbox defaultChecked={true} name="global_topics_size" />
+                }
                 label="Global topics size"
               />
             </Grid>
@@ -150,7 +160,7 @@ export default function Launch() {
           <Grid container direction="row">
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="memory_usage" />}
+                control={<Checkbox defaultChecked={true} name="memory_usage" />}
                 label="Memory usage"
               />
               <FormControlLabel
@@ -158,7 +168,7 @@ export default function Launch() {
                 label="Garbage collection"
               />
               <FormControlLabel
-                control={<Checkbox name="cpu_usage" />}
+                control={<Checkbox defaultChecked={true} name="cpu_usage" />}
                 label="CPU usage"
               />
             </Grid>
@@ -168,7 +178,9 @@ export default function Launch() {
                 label="Open file descriptors"
               />
               <FormControlLabel
-                control={<Checkbox name="available_memory" />}
+                control={
+                  <Checkbox defaultChecked={true} name="available_memory" />
+                }
                 label="Available memory"
               />
             </Grid>
@@ -191,22 +203,22 @@ export default function Launch() {
                 label="Idle time percent"
               />
               <FormControlLabel
-                control={<Checkbox name="request_rate" />}
+                control={<Checkbox defaultChecked={true} name="request_rate" />}
                 label="Request rate"
               />
             </Grid>
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="queue_size" />}
+                control={<Checkbox defaultChecked={true} name="queue_size" />}
                 label="Queue size"
               />
               <FormControlLabel
-                control={<Checkbox name="queue_time" />}
+                control={<Checkbox defaultChecked={true} name="queue_time" />}
                 label="Queue time"
               />
               <FormControlLabel
-                control={<Checkbox name="time_placeholder" />}
-                label="Time placeholder"
+                control={<Checkbox name="throttling" />}
+                label="Throttling"
               />
             </Grid>
           </Grid>
@@ -236,21 +248,29 @@ export default function Launch() {
           <Grid container direction="row">
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="core_healthcheck" />}
+                control={
+                  <Checkbox defaultChecked={true} name="core_healthcheck" />
+                }
                 label="Core health stats"
               />
               <FormControlLabel
-                control={<Checkbox name="throughput_io" />}
+                control={
+                  <Checkbox defaultChecked={true} name="throughput_io" />
+                }
                 label="Throughput I/O"
               />
             </Grid>
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="isr_count_change" />}
+                control={
+                  <Checkbox defaultChecked={true} name="isr_count_change" />
+                }
                 label="In-sync-replica issues"
               />
               <FormControlLabel
-                control={<Checkbox name="leaders_partitions" />}
+                control={
+                  <Checkbox defaultChecked={true} name="leaders_partitions" />
+                }
                 label="Partition/leader data"
               />
             </Grid>
@@ -265,11 +285,15 @@ export default function Launch() {
           <Grid container direction="row">
             <Grid display="flex" direction="column" xs={6}>
               <FormControlLabel
-                control={<Checkbox name="replication_io" />}
+                control={
+                  <Checkbox defaultChecked={true} name="replication_io" />
+                }
                 label="Replication I/O"
               />
               <FormControlLabel
-                control={<Checkbox name="replication_lag" />}
+                control={
+                  <Checkbox defaultChecked={true} name="replication_lag" />
+                }
                 label="Replication lag"
               />
             </Grid>
