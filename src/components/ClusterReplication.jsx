@@ -1,11 +1,13 @@
 import React from 'react';
+import Typography from '@mui/material/Typography';
 import renderMetricPanels from './_utils/renderMetricPanels';
 
 function ClusterReplication(props) {
-  const { metrics, metricURLs } = props;
+  const {metrics, metricURLs} = props;
+  
   return (
     <>
-      <h1>Cluster Replication</h1>
+      <Typography variant="h4">Cluster Replication</Typography>
       {metrics && renderMetricPanels(metrics, metricURLs)}
     </>
   );

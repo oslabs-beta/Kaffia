@@ -2,6 +2,12 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import MetricCard from '../MetricCard';
 
+/**
+ * 
+ * @param {Object} metricCategory - object containing metric subcategories from
+ *                                 the userPreferences object 
+ * @returns {JSX} - grafana panel for each metric embedded in each card
+ */
 function displayMetrics(metricCategory) {
   const metricURLArray = Object.values(metricCategory);
 
@@ -13,3 +19,4 @@ function displayMetrics(metricCategory) {
 }
 
 export default displayMetrics;
+
