@@ -1,11 +1,13 @@
+import Typography from '@mui/material/Typography';
 import React from 'react';
 import renderMetricPanels from './_utils/renderMetricPanels';
 
 function BrokerJVMAndOS(props) {
-  const { metrics, metricURLs } = props;
+  const {metrics, metricURLs} = props;
+  
   return (
     <>
-      <h1>Broker JVM and OS Metrics</h1>
+      <Typography variant="h4">Broker JVM and OS</Typography>
       {metrics && renderMetricPanels(metrics, metricURLs)}
     </>
   );

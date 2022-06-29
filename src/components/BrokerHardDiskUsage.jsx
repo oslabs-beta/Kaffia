@@ -1,13 +1,13 @@
 import React from 'react';
+import Typography from '@mui/material/Typography';
 import renderMetricPanels from './_utils/renderMetricPanels';
 
 function BrokerHardDiskUsage(props) {
   const { metrics, metricURLs } = props;
-  console.log(props);
-  console.log('hello');
+  
   return (
     <>
-      <h1>Broker Hard Disk Usage</h1>
+      <Typography variant="h4">Broker Hard Disk Usage</Typography>
       {metrics && renderMetricPanels(metrics, metricURLs)}
     </>
   );
