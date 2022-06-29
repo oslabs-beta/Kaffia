@@ -122,14 +122,17 @@ class App extends Component {
                 <Route
                   exact
                   path="/clusterReplication"
-                  element={<ClusterReplication metrics={cluster_replication} />}
-                  metricURLs={links.cluster_replication}
+                  element={
+                    <ClusterReplication
+                      metrics={cluster_replication}
+                      metricURLs={links.cluster_replication}
+                    />
+                  }
                 />
                 <Route
                   exact
                   path="/topicsLogs"
-                  element={<TopicLogs metrics={topics_logs} />}
-                  metricURLs={links.topics_logs}
+                  element={<TopicLogs metrics={topics_logs} metricURLs={links.topics_logs}/>}
                 />
                 <Route exact path="/HelpTab" element={<HelpTab />} />
               </Routes>
